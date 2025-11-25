@@ -175,6 +175,24 @@ class Game {
         this.lastAttackTime = Date.now();
     }
 
+    triggerLevelUpAnimation() {
+        // Add active class for text animation
+        this.upgradeWeaponBtn.classList.remove('level-up-active');
+        void this.upgradeWeaponBtn.offsetWidth; // force reflow
+        this.upgradeWeaponBtn.classList.add('level-up-active');
+
+        // Add glow effect
+        this.upgradeWeaponBtn.classList.remove('level-up-glow');
+        void this.upgradeWeaponBtn.offsetWidth;
+        this.upgradeWeaponBtn.classList.add('level-up-glow');
+
+        // Cleanup after animation duration (1.2s)
+        setTimeout(() => {
+            this.upgradeWeaponBtn.classList.remove('level-up-active');
+            this.upgradeWeaponBtn.classList.remove('level-up-glow');
+        }, 1200);
+    }
+
     buyWeaponUpgrade() {
         const weaponData = GAME_DATA.upgrades.weapon;
         const cost = Math.floor(weaponData.baseCost * Math.pow(weaponData.costMultiplier, this.player.weaponLevel - 1));
@@ -182,6 +200,8 @@ class Game {
         if (this.player.energon >= cost) {
             this.player.energon -= cost;
             this.player.weaponLevel++;
+            // Trigger animation
+            this.triggerLevelUpAnimation();
             this.updatePlayerUI();
             this.updateUpgradeUI();
         }
@@ -223,6 +243,7 @@ class Game {
 
             energon.style.left = `${startX + randX}px`;
             energon.style.top = `${startY + randY}px`;
+            energon.style.transform = 'scale(3)'; // Empezar con tamaño triple
 
             document.body.appendChild(energon);
 
