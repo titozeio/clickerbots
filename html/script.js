@@ -1,3 +1,8 @@
-addEventListener("click", () => {
-    alert("I'm a bot, click me");
+let clicks = 0;
+document.getElementById("clickBtn").addEventListener("click", () => {
+    click();
 });
+function click() {
+    clicks++;
+    document.getElementById("clicksCounter").textContent = clicks;
+}
