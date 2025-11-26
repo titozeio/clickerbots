@@ -27,7 +27,13 @@ class Game {
 
         this.overlay = document.getElementById('game-overlay');
         this.overlayTitle = document.getElementById('overlay-title');
+        this.overlayTitle = document.getElementById('overlay-title');
         this.restartBtn = document.getElementById('restart-btn');
+
+        // Game Info Elements
+        this.waveNumEl = document.getElementById('wave-num');
+        this.roundNumEl = document.getElementById('round-num');
+        this.enemyLevelEl = document.getElementById('enemy-level');
 
         // New Elements
         this.energonCountEl = document.getElementById('energon-count');
@@ -96,15 +102,41 @@ class Game {
 
     loadCurrentEnemy() {
         const wave = GAME_DATA.waves[this.currentWaveIndex];
-        const enemyTypeKey = wave.enemies[this.currentEnemyIndex];
+        const enemyDef = wave.enemies[this.currentEnemyIndex];
+
+        let enemyTypeKey, enemyLevel;
+
+        if (typeof enemyDef === 'string') {
+            enemyTypeKey = enemyDef;
+            enemyLevel = 1;
+        } else {
+            enemyTypeKey = enemyDef.type;
+            enemyLevel = enemyDef.level;
+        }
+
         const enemyTemplate = GAME_DATA.enemyTypes[enemyTypeKey];
 
         // Deep copy
         this.currentEnemy = JSON.parse(JSON.stringify(enemyTemplate));
 
+        // Apply Level Multipliers
+        if (enemyLevel > 1) {
+            const multipliers = GAME_DATA.levelMultipliers;
+            const power = enemyLevel - 1;
+            this.currentEnemy.hp = Math.floor(this.currentEnemy.hp * Math.pow(multipliers.hp, power));
+            this.currentEnemy.maxHp = this.currentEnemy.hp;
+            this.currentEnemy.damage = Math.floor(this.currentEnemy.damage * Math.pow(multipliers.damage, power));
+            this.currentEnemy.energonReward = Math.floor(this.currentEnemy.energonReward * Math.pow(multipliers.energon, power));
+        }
+        this.currentEnemy.level = enemyLevel;
+
         // Update UI
         this.enemyNameEl.textContent = this.currentEnemy.name;
         this.enemyImageEl.src = this.currentEnemy.image;
+        this.waveNumEl.textContent = wave.id;
+        this.roundNumEl.textContent = this.currentEnemyIndex + 1;
+        this.enemyLevelEl.textContent = enemyLevel;
+
         this.updateEnemyUI();
     }
 

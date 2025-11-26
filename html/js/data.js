@@ -25,12 +25,24 @@ const GAME_DATA = {
             energonReward: 50
         }
     },
+    levelMultipliers: {
+        hp: 1.5,
+        damage: 1.2,
+        energon: 1.5
+    },
     waves: [
         {
             id: 1,
             enemies: [
-                "basic", "basic", "basic", "basic", "basic",
-                "basic", "basic", "basic", "basic", "boss"
+                { type: "basic", level: 1 }, { type: "basic", level: 1 }, { type: "basic", level: 1 }, { type: "basic", level: 1 }, { type: "basic", level: 1 },
+                { type: "basic", level: 1 }, { type: "basic", level: 1 }, { type: "basic", level: 1 }, { type: "basic", level: 1 }, { type: "boss", level: 1 }
+            ]
+        },
+        {
+            id: 2,
+            enemies: [
+                { type: "basic", level: 2 }, { type: "basic", level: 2 }, { type: "basic", level: 2 }, { type: "basic", level: 2 }, { type: "basic", level: 2 },
+                { type: "basic", level: 2 }, { type: "basic", level: 2 }, { type: "basic", level: 2 }, { type: "basic", level: 2 }, { type: "boss", level: 2 }
             ]
         }
     ],
