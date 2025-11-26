@@ -797,3 +797,64 @@ body::before {
         opacity: 1;
     }
 }
+
+/* Wave Complete Overlay */
+.wave-complete-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: var(--player-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 3rem;
+    font-weight: 900;
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    text-shadow: 0 0 30px var(--player-color);
+    letter-spacing: 5px;
+    text-align: center;
+    font-family: var(--font-main);
+}
+
+.wave-complete-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    animation: victoryPulse 2s ease-in-out;
+}
+
+.wave-sub {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 20px var(--primary-color);
+    margin-top: 20px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+@keyframes victoryPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    20% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

@@ -7,10 +7,26 @@ class Game {
         this.lastAttackTime = 0;
         this.gameLoopId = null;
         this.isPlaying = false;
+        this.isBossSpawning = false;
+
 
         // Allies
         this.allies = {}; // { key: { level: 0, lastAttack: 0, ...data } }
         this.allyElements = {}; // { key: { card, hpBar, attackBar, ... } }
+
+        // Audio
+        this.sounds = {
+            playerAttack: new Audio('assets/player_attack.wav'),
+            allyAttack: new Audio('assets/ally_attack.wav'),
+            enemyAttack: new Audio('assets/enemy_attack.wav'),
+            bossAttack: new Audio('assets/boss_attack.wav')
+        };
+        // Volume
+        this.sounds.playerAttack.volume = 0.4;
+        this.sounds.allyAttack.volume = 0.3;
+        this.sounds.enemyAttack.volume = 0.35;
+        this.sounds.bossAttack.volume = 0.5;
+
 
         // DOM Elements
         this.enemyNameEl = document.getElementById('enemy-name');
@@ -25,6 +41,7 @@ class Game {
         this.enemyCard = document.getElementById('enemy-card');
         this.screenFlash = document.getElementById('screen-flash');
         this.bossWarningOverlay = document.getElementById('boss-warning-overlay');
+        this.waveCompleteOverlay = document.getElementById('wave-complete-overlay');
 
 
         this.overlay = document.getElementById('game-overlay');
@@ -59,10 +76,23 @@ class Game {
         this.restartGame = this.restartGame.bind(this);
         this.buyWeaponUpgrade = this.buyWeaponUpgrade.bind(this);
         this.buyBumblebee = this.buyBumblebee.bind(this);
+
         this.loop = this.loop.bind(this);
+        this.playSound = this.playSound.bind(this);
 
         this.init();
     }
+
+    playSound(key) {
+        const sound = this.sounds[key];
+        if (sound) {
+            // Clone node to allow overlapping sounds (rapid fire)
+            const clone = sound.cloneNode();
+            clone.volume = sound.volume;
+            clone.play().catch(e => console.log("Audio play prevented:", e));
+        }
+    }
+
 
     init() {
         this.enemyCard.addEventListener('click', this.handleEnemyClick);
@@ -216,15 +246,20 @@ class Game {
     }
 
     handleEnemyClick(e) {
-        if (!this.isPlaying) return;
+        if (!this.isPlaying || this.isBossSpawning) return;
+
 
         // Damage Enemy
         const damage = this.player.weaponLevel; // 1 damage per level
         this.damageEnemy(damage);
 
+
+
         this.triggerHitEffect(e.clientX, e.clientY, damage);
         this.triggerShake();
+        this.playSound('playerAttack');
     }
+
 
     damageEnemy(amount) {
         this.currentEnemy.hp -= amount;
@@ -256,7 +291,7 @@ class Game {
         const currentWave = GAME_DATA.waves[this.currentWaveIndex];
 
         if (this.currentEnemyIndex >= currentWave.enemies.length) {
-            // Wave Complete
+            // Wave Complete!
             this.currentWaveIndex++;
             this.currentEnemyIndex = 0;
 
@@ -264,17 +299,46 @@ class Game {
                 this.gameOver(true);
                 return;
             }
+
+            // Show wave complete animation
+            this.showWaveComplete();
+            setTimeout(() => {
+                this.loadCurrentEnemy();
+                this.lastAttackTime = Date.now();
+            }, 3000); // 3 seconds pause between waves
+            return;
         }
 
         // Check if next enemy is the last one (Boss)
         const isLastEnemy = this.currentEnemyIndex === currentWave.enemies.length - 1;
 
         if (isLastEnemy) {
+            this.isBossSpawning = true;
+            this.attackBar.style.width = '0%';
+
+            // 1. Load Boss immediately
+            this.loadCurrentEnemy();
+
+            // 2. Prepare Fade-In
+            this.enemyImageEl.style.transition = 'none';
+            this.enemyImageEl.style.opacity = '0';
+
+            // 3. Show Warning
             this.showBossWarning();
+
+            // 4. Start Fade-In
+            requestAnimationFrame(() => {
+                void this.enemyImageEl.offsetWidth; // force reflow
+                this.enemyImageEl.style.transition = 'opacity 2s ease-in';
+                this.enemyImageEl.style.opacity = '1';
+            });
+
+            // 5. Unlock after animation
             setTimeout(() => {
-                this.loadCurrentEnemy();
+                this.isBossSpawning = false;
                 this.lastAttackTime = Date.now();
-            }, 3000);
+            }, 2000);
+
             return;
         }
 
@@ -289,6 +353,13 @@ class Game {
         setTimeout(() => {
             this.bossWarningOverlay.classList.remove('active');
         }, 2000);
+    }
+
+    showWaveComplete() {
+        this.waveCompleteOverlay.classList.add('active');
+        setTimeout(() => {
+            this.waveCompleteOverlay.classList.remove('active');
+        }, 3000);
     }
 
     triggerLevelUpAnimation(btn) {
@@ -443,6 +514,15 @@ class Game {
     }
 
     triggerEnemyAttack() {
+        // Determine if boss (omega_boss or venom)
+        const isBoss = this.currentEnemy.isBoss ||
+            this.currentEnemy.name.toLowerCase().includes('boss') ||
+            this.currentEnemy.name === 'Venom' ||
+            this.currentEnemy.name === 'Omega Boss';
+
+        // Play attack sound
+        this.playSound(isBoss ? 'bossAttack' : 'enemyAttack');
+
         // Trigger Enemy Animation
         this.enemyCard.classList.add('enemy-attacking');
         setTimeout(() => this.enemyCard.classList.remove('enemy-attacking'), 300);
@@ -478,16 +558,20 @@ class Game {
         if (!this.isPlaying) return;
 
         const now = Date.now();
-        const timeSinceAttack = now - this.lastAttackTime;
 
-        // Update Attack Bar
-        const attackProgress = Math.min((timeSinceAttack / this.currentEnemy.attackSpeed) * 100, 100);
-        this.attackBar.style.width = `${attackProgress}%`;
+        // Skip enemy attack logic if boss is spawning
+        if (!this.isBossSpawning) {
+            const timeSinceAttack = now - this.lastAttackTime;
 
-        // Check Enemy Attack
-        if (timeSinceAttack >= this.currentEnemy.attackSpeed) {
-            this.triggerEnemyAttack();
-            this.lastAttackTime = now;
+            // Update Attack Bar
+            const attackProgress = Math.min((timeSinceAttack / this.currentEnemy.attackSpeed) * 100, 100);
+            this.attackBar.style.width = `${attackProgress}%`;
+
+            // Check Enemy Attack
+            if (timeSinceAttack >= this.currentEnemy.attackSpeed) {
+                this.triggerEnemyAttack();
+                this.lastAttackTime = now;
+            }
         }
 
         // Handle Allies
@@ -503,6 +587,8 @@ class Game {
 
             // Check Ally Attack
             if (timeSinceAllyAttack >= ally.attackSpeed) {
+                if (this.isBossSpawning) continue; // Wait for boss to spawn
+
                 ally.lastAttack = now;
 
                 // Trigger Ally Animation
@@ -512,10 +598,13 @@ class Game {
                     void card.offsetWidth; // Force reflow
                     card.classList.add('attacking');
 
+                    this.playSound('allyAttack');
+
                     setTimeout(() => {
                         card.classList.remove('attacking');
                     }, 250);
                 }
+
 
                 // Schedule Hit at peak (125ms)
                 setTimeout(() => {
