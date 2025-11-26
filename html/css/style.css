@@ -148,6 +148,21 @@ body::before {
     box-shadow: 0 0 10px currentColor;
 }
 
+.hp-bar {
+    box-shadow: 0 0 10px var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.attack-bar {
+    box-shadow: 0 0 10px #ff9d00;
+    border-color: #ff9d00;
+}
+
+.player-hp-bar {
+    box-shadow: 0 0 10px var(--player-color);
+    border-color: var(--player-color);
+}
+
 .hp-bar .bar-fill {
     background: var(--secondary-color);
     color: var(--secondary-color);
