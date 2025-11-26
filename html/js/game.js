@@ -390,16 +390,35 @@ class Game {
     }
 
     triggerEnemyAttack() {
-        this.player.hp -= this.currentEnemy.damage;
-        if (this.player.hp < 0) this.player.hp = 0;
+        // Trigger Enemy Animation
+        this.enemyCard.classList.add('enemy-attacking');
+        setTimeout(() => this.enemyCard.classList.remove('enemy-attacking'), 300);
 
-        this.updatePlayerUI();
-        this.screenFlash.classList.add('flash-active');
-        setTimeout(() => this.screenFlash.classList.remove('flash-active'), 100);
+        // Delay damage to match impact (approx 150ms)
+        setTimeout(() => {
+            if (!this.isPlaying) return;
 
-        if (this.player.hp <= 0) {
-            this.gameOver(false);
-        }
+            this.player.hp -= this.currentEnemy.damage;
+            if (this.player.hp < 0) this.player.hp = 0;
+
+            this.updatePlayerUI();
+
+            // Player Hit Feedback
+            const playerSection = document.querySelector('.player-section');
+            if (playerSection) {
+                playerSection.classList.remove('player-hit');
+                void playerSection.offsetWidth;
+                playerSection.classList.add('player-hit');
+                setTimeout(() => playerSection.classList.remove('player-hit'), 400);
+            }
+
+            this.screenFlash.classList.add('flash-active');
+            setTimeout(() => this.screenFlash.classList.remove('flash-active'), 100);
+
+            if (this.player.hp <= 0) {
+                this.gameOver(false);
+            }
+        }, 150);
     }
 
     loop() {
