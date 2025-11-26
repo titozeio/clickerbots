@@ -45,8 +45,8 @@ const GAME_DATA = {
             name: "Bumblebee",
             image: "assets/bumblebee.png",
             baseHp: 50,
-            baseDamage: 2,
-            baseAttackSpeed: 3000, // ms
+            baseDamage: 5,
+            baseAttackSpeed: 2000, // ms
             baseCost: 20,
             costMultiplier: 1.6,
             hpMultiplier: 1.2,

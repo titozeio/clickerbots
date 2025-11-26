@@ -15,87 +15,91 @@
     <div id="screen-flash" class="screen-flash"></div>
 
     <div class="game-container">
-        <!-- Enemy Section -->
-        <div class="enemy-section">
-            <div id="enemy-card" class="enemy-card">
-                <div class="enemy-name" id="enemy-name">Loading...</div>
-                <div class="enemy-image-container">
-                    <img id="enemy-image" class="enemy-image" src="" alt="Enemy Robot">
+        <div class="main-view">
+            <!-- Enemy Section -->
+            <div class="enemy-section">
+                <div id="enemy-card" class="enemy-card">
+                    <div class="enemy-name" id="enemy-name">Loading...</div>
+                    <div class="enemy-image-container">
+                        <img id="enemy-image" class="enemy-image" src="" alt="Enemy Robot">
+                    </div>
+                    <!-- HP Bar -->
+                    <div class="bar-label">
+                        <span>HP</span>
+                        <span id="enemy-hp-text">0 / 0</span>
+                    </div>
+                    <div class="bar-container hp-bar">
+                        <div id="enemy-hp-fill" class="bar-fill" style="width: 100%;"></div>
+                    </div>
+                    <!-- Attack Timer -->
+                    <div class="bar-label">
+                        <span>ATTACK TIMER</span>
+                    </div>
+                    <div class="bar-container attack-bar">
+                        <div id="attack-fill" class="bar-fill" style="width: 0%;"></div>
+                    </div>
                 </div>
-                <!-- HP Bar -->
+            </div>
+
+            <!-- Allies Section -->
+            <div class="allies-section">
+                <div id="allies-container" class="allies-container">
+                    <!-- Ally cards will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="side-panel">
+            <!-- Player Section -->
+            <div class="player-section">
                 <div class="bar-label">
-                    <span>HP</span>
-                    <span id="enemy-hp-text">0 / 0</span>
+                    <span>PLAYER HEALTH</span>
+                    <span id="player-hp-text">100 / 100</span>
                 </div>
-                <div class="bar-container hp-bar">
-                    <div id="enemy-hp-fill" class="bar-fill" style="width: 100%;"></div>
-                </div>
-                <!-- Attack Timer -->
-                <div class="bar-label">
-                    <span>ATTACK TIMER</span>
-                </div>
-                <div class="bar-container attack-bar">
-                    <div id="attack-fill" class="bar-fill" style="width: 0%;"></div>
+                <div class="bar-container player-hp-bar">
+                    <div id="player-hp-fill" class="bar-fill" style="width: 100%;"></div>
                 </div>
             </div>
-        </div>
 
-        <!-- Allies Section -->
-        <div class="allies-section">
-            <div id="allies-container" class="allies-container">
-                <!-- Ally cards will be injected here -->
-            </div>
-        </div>
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="energon-display">
+                    <img src="assets/energon.png" class="energon-icon" alt="Energon">
+                    <span id="energon-count">0</span>
+                </div>
 
-        <!-- Player Section -->
-        <div class="player-section">
-            <div class="bar-label">
-                <span>PLAYER HEALTH</span>
-                <span id="player-hp-text">100 / 100</span>
-            </div>
-            <div class="bar-container player-hp-bar">
-                <div id="player-hp-fill" class="bar-fill" style="width: 100%;"></div>
-            </div>
-        </div>
-
-        <!-- Control Panel -->
-        <div class="control-panel">
-            <div class="energon-display">
-                <img src="assets/energon.png" class="energon-icon" alt="Energon">
-                <span id="energon-count">0</span>
-            </div>
-
-            <div class="upgrades-list">
-                <button id="upgrade-weapon-btn" class="upgrade-btn">
-                    <div class="upgrade-level-up-text">LEVEL UP!</div>
-                    <div class="upgrade-icon-wrapper">
-                        <img src="assets/weapon.png" class="upgrade-icon" alt="Weapon">
-                    </div>
-                    <div class="upgrade-details">
-                        <span class="upgrade-name">Laser Cannon</span>
-                        <span class="upgrade-cost-text"><span id="weapon-cost">10</span> Energon</span>
-                        <span id="weapon-damage-info" class="upgrade-info-text">Dmg: 1 >> 2</span>
-                    </div>
-                    <div class="upgrade-level-badge" id="weapon-level">Lv 1</div>
-                </button>
-
-                <!-- Bumblebee Upgrade -->
-                <button id="buy-ally-bumblebee-btn" class="upgrade-btn">
-                    <div class="upgrade-level-up-text">LEVEL UP!</div>
-                    <div class="upgrade-icon-wrapper">
-                        <img src="assets/bumblebee.png" class="upgrade-icon" alt="Bumblebee">
-                    </div>
-                    <div class="upgrade-details">
-                        <span class="upgrade-name">Bumblebee</span>
-                        <span class="upgrade-cost-text"><span id="ally-bumblebee-cost">50</span> Energon</span>
-                        <div class="upgrade-stats-row">
-                            <span id="ally-bumblebee-hp" class="upgrade-info-text">HP: 50</span>
-                            <span id="ally-bumblebee-dmg" class="upgrade-info-text">Dmg: 2</span>
-                            <span id="ally-bumblebee-speed" class="upgrade-info-text">Spd: 3.0s</span>
+                <div class="upgrades-list">
+                    <button id="upgrade-weapon-btn" class="upgrade-btn">
+                        <div class="upgrade-level-up-text">LEVEL UP!</div>
+                        <div class="upgrade-icon-wrapper">
+                            <img src="assets/weapon.png" class="upgrade-icon" alt="Weapon">
                         </div>
-                    </div>
-                    <div class="upgrade-level-badge" id="ally-bumblebee-level">Lv 0</div>
-                </button>
+                        <div class="upgrade-details">
+                            <span class="upgrade-name">Laser Cannon</span>
+                            <span class="upgrade-cost-text"><span id="weapon-cost">10</span> Energon</span>
+                            <span id="weapon-damage-info" class="upgrade-info-text">Dmg: 1 >> 2</span>
+                        </div>
+                        <div class="upgrade-level-badge" id="weapon-level">Lv 1</div>
+                    </button>
+
+                    <!-- Bumblebee Upgrade -->
+                    <button id="buy-ally-bumblebee-btn" class="upgrade-btn">
+                        <div class="upgrade-level-up-text">LEVEL UP!</div>
+                        <div class="upgrade-icon-wrapper">
+                            <img src="assets/bumblebee.png" class="upgrade-icon" alt="Bumblebee">
+                        </div>
+                        <div class="upgrade-details">
+                            <span class="upgrade-name">Bumblebee</span>
+                            <span class="upgrade-cost-text"><span id="ally-bumblebee-cost">50</span> Energon</span>
+                            <div class="upgrade-stats-row">
+                                <span id="ally-bumblebee-hp" class="upgrade-info-text">HP: 50</span>
+                                <span id="ally-bumblebee-dmg" class="upgrade-info-text">Dmg: 2</span>
+                                <span id="ally-bumblebee-speed" class="upgrade-info-text">Spd: 3.0s</span>
+                            </div>
+                        </div>
+                        <div class="upgrade-level-badge" id="ally-bumblebee-level">Lv 0</div>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
