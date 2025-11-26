@@ -431,7 +431,6 @@ class Game {
 
             // Check Ally Attack
             if (timeSinceAllyAttack >= ally.attackSpeed) {
-                this.damageEnemy(ally.damage);
                 ally.lastAttack = now;
 
                 // Trigger Ally Animation
@@ -446,18 +445,38 @@ class Game {
                     }, 250);
                 }
 
-                // Visual feedback on enemy
-                const rect = this.enemyCard.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-                // Random offset
-                const offX = (Math.random() - 0.5) * 100;
-                const offY = (Math.random() - 0.5) * 100;
-                this.triggerHitEffect(centerX + offX, centerY + offY, ally.damage);
+                // Schedule Hit at peak (125ms)
+                setTimeout(() => {
+                    if (!this.isPlaying) return;
+
+                    this.damageEnemy(ally.damage);
+                    this.triggerShake();
+
+                    // Visual feedback
+                    const rect = this.enemyCard.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+
+                    // Random offset
+                    const offX = (Math.random() - 0.5) * 60;
+                    const offY = (Math.random() - 0.5) * 60;
+
+                    this.triggerHitEffect(centerX + offX, centerY + offY, ally.damage);
+                    this.triggerComicHit(centerX + offX, centerY + offY);
+                }, 125);
             }
         }
 
         this.gameLoopId = requestAnimationFrame(this.loop);
+    }
+
+    triggerComicHit(x, y) {
+        const hit = document.createElement('div');
+        hit.className = 'comic-hit';
+        hit.style.left = `${x}px`;
+        hit.style.top = `${y}px`;
+        document.body.appendChild(hit);
+        setTimeout(() => hit.remove(), 200);
     }
 
     gameOver(win) {
