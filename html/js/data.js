@@ -3,7 +3,7 @@ const GAME_DATA = {
         hp: 100,
         maxHp: 100,
         energon: 0,
-        weaponLevel: 1
+        weaponLevel: 5
     },
     enemyTypes: {
         titan_prime: {

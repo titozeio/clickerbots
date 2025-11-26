@@ -24,6 +24,8 @@ class Game {
 
         this.enemyCard = document.getElementById('enemy-card');
         this.screenFlash = document.getElementById('screen-flash');
+        this.bossWarningOverlay = document.getElementById('boss-warning-overlay');
+
 
         this.overlay = document.getElementById('game-overlay');
         this.overlayTitle = document.getElementById('overlay-title');
@@ -264,10 +266,29 @@ class Game {
             }
         }
 
+        // Check if next enemy is the last one (Boss)
+        const isLastEnemy = this.currentEnemyIndex === currentWave.enemies.length - 1;
+
+        if (isLastEnemy) {
+            this.showBossWarning();
+            setTimeout(() => {
+                this.loadCurrentEnemy();
+                this.lastAttackTime = Date.now();
+            }, 3000);
+            return;
+        }
+
         // Load Next Enemy
         this.loadCurrentEnemy();
         // Reset attack timer for new enemy so they don't hit instantly
         this.lastAttackTime = Date.now();
+    }
+
+    showBossWarning() {
+        this.bossWarningOverlay.classList.add('active');
+        setTimeout(() => {
+            this.bossWarningOverlay.classList.remove('active');
+        }, 3000);
     }
 
     triggerLevelUpAnimation(btn) {

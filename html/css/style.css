@@ -950,3 +950,50 @@ body::before {
     border-color: var(--secondary-color);
     box-shadow: 0 0 15px var(--secondary-color) inset;
 }
+
+/* Boss Warning Overlay */
+.boss-warning-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: 900;
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    text-shadow: 0 0 20px var(--secondary-color);
+    letter-spacing: 5px;
+    text-align: center;
+    font-family: var(--font-main);
+}
+
+.boss-warning-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    animation: pulseWarning 1s infinite;
+}
+
+@keyframes pulseWarning {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 20px var(--secondary-color);
+    }
+
+    50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 40px var(--secondary-color);
+    }
+
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 20px var(--secondary-color);
+    }
+}
