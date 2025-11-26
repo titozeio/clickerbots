@@ -783,7 +783,7 @@ body::before {
 .boss-warning-overlay.active {
     opacity: 1;
     pointer-events: all;
-    animation: slideThrough 2.9s linear forwards;
+    animation: slideThrough 2s linear forwards;
 }
 
 @keyframes slideThrough {

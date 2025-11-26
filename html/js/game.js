@@ -288,7 +288,7 @@ class Game {
         this.bossWarningOverlay.classList.add('active');
         setTimeout(() => {
             this.bossWarningOverlay.classList.remove('active');
-        }, 3000);
+        }, 2000);
     }
 
     triggerLevelUpAnimation(btn) {
