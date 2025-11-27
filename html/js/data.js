@@ -88,6 +88,13 @@ const GAME_DATA = {
         {
             id: 2,
             enemies: [
+                { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 },
+                { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "venom", level: 2 }
+            ]
+        },
+        {
+            id: 3,
+            enemies: [
                 { type: "reflector", level: 1 }, { type: "runabout", level: 1 }, { type: "reflector", level: 1 }, { type: "runabout", level: 1 }, { type: "reflector", level: 1 },
                 { type: "runabout", level: 1 }, { type: "reflector", level: 1 }, { type: "runabout", level: 1 }, { type: "reflector", level: 1 }, { type: "thrust", level: 1 }
             ]
