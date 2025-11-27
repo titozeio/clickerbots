@@ -32,6 +32,7 @@ class Game {
         // DOM Elements
         this.enemyNameEl = document.getElementById('enemy-name');
         this.enemyImageEl = document.getElementById('enemy-image');
+        this.cardFrameEl = document.getElementById('card-frame');
         this.enemyHpBar = document.getElementById('enemy-hp-fill');
         this.enemyHpText = document.getElementById('enemy-hp-text');
         this.attackBar = document.getElementById('attack-fill');
@@ -166,6 +167,11 @@ class Game {
         // Update UI
         this.enemyNameEl.textContent = this.currentEnemy.name;
         this.enemyImageEl.src = this.currentEnemy.image;
+
+        // Update card frame based on enemy level (1-6)
+        const frameLevel = Math.min(enemyLevel, 6); // Cap at level 6
+        this.cardFrameEl.src = `assets/card frame ${frameLevel}.png`;
+
         this.waveNumEl.textContent = wave.id;
         this.roundNumEl.textContent = this.currentEnemyIndex + 1;
         this.enemyLevelEl.textContent = enemyLevel;
