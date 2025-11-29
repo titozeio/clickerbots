@@ -58,11 +58,12 @@ body::before {
     width: 100%;
     max-width: 800px;
     padding: 15px;
-    overflow-y: auto;
-    max-height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
-/* BLOCK 1: Enemy Card */
 .enemy-card {
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
@@ -75,6 +76,7 @@ body::before {
     grid-template-rows: auto auto auto auto auto auto;
     gap: 6px 8px;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .enemy-image-container {
@@ -225,7 +227,6 @@ body::before {
     transition: width 0.1s linear;
 }
 
-/* BLOCK 2: Player Stats */
 .player-stats-block {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -236,7 +237,7 @@ body::before {
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 8px;
-    margin-top: 5px;
+    flex-shrink: 0;
 }
 
 .player-health-section {
@@ -321,7 +322,6 @@ body::before {
     text-shadow: 0 0 10px var(--primary-color);
 }
 
-/* BLOCK 3: Allies */
 .allies-block {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -332,7 +332,7 @@ body::before {
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 8px;
-    margin-top: 5px;
+    flex-shrink: 0;
 }
 
 .ally-card {
@@ -392,18 +392,17 @@ body::before {
     transition: width 0.3s ease-out;
 }
 
-/* BLOCK 4: Upgrades */
 .upgrades-block {
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 8px;
-    margin-top: 5px;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-height: 400px;
+    flex: 1;
+    min-height: 0;
 }
 
 .weapon-upgrade {
@@ -417,6 +416,7 @@ body::before {
     padding: 8px 12px;
     transition: border-color 0.2s, transform 0.2s;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .weapon-upgrade:hover {
@@ -470,6 +470,8 @@ body::before {
     gap: 6px;
     overflow-y: auto;
     padding-right: 4px;
+    flex: 1;
+    min-height: 0;
 }
 
 .bot-upgrades-container::-webkit-scrollbar {
