@@ -21,7 +21,7 @@ body {
     height: 100vh;
     height: 100dvh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     overflow: hidden;
     user-select: none;
