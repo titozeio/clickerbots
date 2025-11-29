@@ -124,9 +124,9 @@ const GAME_DATA = {
             name: "Wheeljack",
             image: "assets/cards/allies/wheeljack.png",
             baseHp: 50,
-            baseDamage: 5,
-            baseAttackSpeed: 1000, // ms
-            baseCost: 10,
+            baseDamage: 50,
+            baseAttackSpeed: 2000, // ms
+            baseCost: 50,
             costMultiplier: 1.6,
             hpMultiplier: 1.2,
             damageMultiplier: 1.2

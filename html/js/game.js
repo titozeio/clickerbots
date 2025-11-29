@@ -48,7 +48,6 @@ class Game {
 
         this.overlay = document.getElementById('game-overlay');
         this.overlayTitle = document.getElementById('overlay-title');
-        this.overlayTitle = document.getElementById('overlay-title');
         this.restartBtn = document.getElementById('restart-btn');
 
         // Game Info Elements
@@ -67,29 +66,15 @@ class Game {
 
         this.alliesContainer = document.getElementById('allies-container');
 
-        // Ally Shop Elements (Bumblebee)
-        this.buyBumblebeeBtn = document.getElementById('buy-ally-bumblebee-btn');
-        this.bumblebeeCostEl = document.getElementById('ally-bumblebee-cost');
-        this.bumblebeeLevelEl = document.getElementById('ally-bumblebee-level');
-        this.bumblebeeHpEl = document.getElementById('ally-bumblebee-hp');
-        this.bumblebeeDmgEl = document.getElementById('ally-bumblebee-dmg');
-        this.bumblebeeSpeedEl = document.getElementById('ally-bumblebee-speed');
-
-        // Ally Shop Elements (Wheeljack)
-        this.buyWheeljackBtn = document.getElementById('buy-ally-wheeljack-btn');
-        this.wheeljackCostEl = document.getElementById('ally-wheeljack-cost');
-        this.wheeljackLevelEl = document.getElementById('ally-wheeljack-level');
-        this.wheeljackHpEl = document.getElementById('ally-wheeljack-hp');
-        this.wheeljackDmgEl = document.getElementById('ally-wheeljack-dmg');
-        this.wheeljackSpeedEl = document.getElementById('ally-wheeljack-speed');
+        // Dynamic Ally Shop Elements
+        this.allyUpgradesList = document.getElementById('ally-upgrades-list');
+        this.allyShopElements = {}; // Stores references to shop UI elements for each ally
 
         // Bindings
         this.handleEnemyClick = this.handleEnemyClick.bind(this);
         this.restartGame = this.restartGame.bind(this);
         this.buyWeaponUpgrade = this.buyWeaponUpgrade.bind(this);
-        this.buyWeaponUpgrade = this.buyWeaponUpgrade.bind(this);
-        this.buyBumblebee = this.buyBumblebee.bind(this);
-        this.buyWheeljack = this.buyWheeljack.bind(this);
+        this.buyAlly = this.buyAlly.bind(this);
 
         this.loop = this.loop.bind(this);
         this.playSound = this.playSound.bind(this);
@@ -112,9 +97,49 @@ class Game {
         this.enemyCard.addEventListener('click', this.handleEnemyClick);
         this.restartBtn.addEventListener('click', this.restartGame);
         this.upgradeWeaponBtn.addEventListener('click', this.buyWeaponUpgrade);
-        this.buyBumblebeeBtn.addEventListener('click', this.buyBumblebee);
-        this.buyWheeljackBtn.addEventListener('click', this.buyWheeljack);
+
+        this.renderAllyUpgrades();
         this.startGame();
+    }
+
+    renderAllyUpgrades() {
+        this.allyUpgradesList.innerHTML = '';
+        this.allyShopElements = {};
+
+        for (const [key, data] of Object.entries(GAME_DATA.allies)) {
+            const btn = document.createElement('button');
+            btn.className = 'upgrade-btn';
+            btn.id = `buy-ally-${key}-btn`;
+            btn.innerHTML = `
+                <div class="upgrade-level-up-text">LEVEL UP!</div>
+                <div class="upgrade-icon-wrapper">
+                    <img src="${data.image}" class="upgrade-icon" alt="${data.name}">
+                </div>
+                <div class="upgrade-details">
+                    <span class="upgrade-name">${data.name}</span>
+                    <span class="upgrade-cost-text"><span class="cost-val">0</span> Energon</span>
+                    <div class="upgrade-stats-row">
+                        <span class="hp-val upgrade-info-text">HP: 0</span>
+                        <span class="dmg-val upgrade-info-text">Dmg: 0</span>
+                        <span class="speed-val upgrade-info-text">Spd: 0s</span>
+                    </div>
+                </div>
+                <div class="upgrade-level-badge">Lv 0</div>
+            `;
+
+            btn.addEventListener('click', () => this.buyAlly(key));
+            this.allyUpgradesList.appendChild(btn);
+
+            // Store references
+            this.allyShopElements[key] = {
+                btn: btn,
+                cost: btn.querySelector('.cost-val'),
+                level: btn.querySelector('.upgrade-level-badge'),
+                hp: btn.querySelector('.hp-val'),
+                dmg: btn.querySelector('.dmg-val'),
+                speed: btn.querySelector('.speed-val')
+            };
+        }
     }
 
     startGame() {
@@ -130,8 +155,11 @@ class Game {
 
         this.updatePlayerUI();
         this.updateUpgradeUI();
-        this.updateAllyShopUI('bumblebee');
-        this.updateAllyShopUI('wheeljack');
+
+        // Update all ally shop UIs
+        Object.keys(GAME_DATA.allies).forEach(key => {
+            this.updateAllyShopUI(key);
+        });
 
         // Load Enemy
         this.loadCurrentEnemy();
@@ -236,6 +264,9 @@ class Game {
         const allyData = GAME_DATA.allies[allyKey];
         const currentAlly = this.allies[allyKey];
         const level = currentAlly ? currentAlly.level : 0;
+        const elements = this.allyShopElements[allyKey];
+
+        if (!elements) return;
 
         // Cost formula
         const cost = Math.floor(allyData.baseCost * Math.pow(allyData.costMultiplier, level));
@@ -244,41 +275,23 @@ class Game {
         const nextLevel = level + 1;
         const hp = Math.floor(allyData.baseHp * Math.pow(allyData.hpMultiplier, level));
         const dmg = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, level));
-        // Attack speed doesn't change with level for now, or maybe it should? User didn't specify, assuming constant or base.
-        // User said: "valores para el siguiente nivel". Let's assume HP and DMG scale.
 
         const nextHp = Math.floor(allyData.baseHp * Math.pow(allyData.hpMultiplier, nextLevel - 1));
         const nextDmg = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, nextLevel - 1));
 
         // Update DOM
-        if (allyKey === 'bumblebee') {
-            this.bumblebeeCostEl.textContent = cost;
-            this.bumblebeeLevelEl.textContent = `Lv ${level}`;
-            this.bumblebeeHpEl.textContent = `HP: ${hp} > ${nextHp}`;
-            this.bumblebeeDmgEl.textContent = `Dmg: ${dmg} > ${nextDmg}`;
-            this.bumblebeeSpeedEl.textContent = `Spd: ${(allyData.baseAttackSpeed / 1000).toFixed(1)}s`;
+        elements.cost.textContent = cost;
+        elements.level.textContent = `Lv ${level}`;
+        elements.hp.textContent = `HP: ${hp} > ${nextHp}`;
+        elements.dmg.textContent = `Dmg: ${dmg} > ${nextDmg}`;
+        elements.speed.textContent = `Spd: ${(allyData.baseAttackSpeed / 1000).toFixed(1)}s`;
 
-            if (this.player.energon < cost) {
-                this.buyBumblebeeBtn.style.opacity = '0.5';
-                this.buyBumblebeeBtn.style.pointerEvents = 'none';
-            } else {
-                this.buyBumblebeeBtn.style.opacity = '1';
-                this.buyBumblebeeBtn.style.pointerEvents = 'all';
-            }
-        } else if (allyKey === 'wheeljack') {
-            this.wheeljackCostEl.textContent = cost;
-            this.wheeljackLevelEl.textContent = `Lv ${level}`;
-            this.wheeljackHpEl.textContent = `HP: ${hp} > ${nextHp}`;
-            this.wheeljackDmgEl.textContent = `Dmg: ${dmg} > ${nextDmg}`;
-            this.wheeljackSpeedEl.textContent = `Spd: ${(allyData.baseAttackSpeed / 1000).toFixed(1)}s`;
-
-            if (this.player.energon < cost) {
-                this.buyWheeljackBtn.style.opacity = '0.5';
-                this.buyWheeljackBtn.style.pointerEvents = 'none';
-            } else {
-                this.buyWheeljackBtn.style.opacity = '1';
-                this.buyWheeljackBtn.style.pointerEvents = 'all';
-            }
+        if (this.player.energon < cost) {
+            elements.btn.style.opacity = '0.5';
+            elements.btn.style.pointerEvents = 'none';
+        } else {
+            elements.btn.style.opacity = '1';
+            elements.btn.style.pointerEvents = 'all';
         }
     }
 
@@ -321,8 +334,11 @@ class Game {
         this.triggerEnergonCollection(reward);
         this.updatePlayerUI();
         this.updateUpgradeUI();
-        this.updateAllyShopUI('bumblebee');
-        this.updateAllyShopUI('wheeljack');
+
+        // Update all ally shop UIs
+        Object.keys(GAME_DATA.allies).forEach(key => {
+            this.updateAllyShopUI(key);
+        });
 
         // Progress
         this.currentEnemyIndex++;
@@ -439,20 +455,16 @@ class Game {
             this.triggerLevelUpAnimation(this.upgradeWeaponBtn);
             this.updatePlayerUI();
             this.updateUpgradeUI();
-            this.updateAllyShopUI('bumblebee'); // Update ally shop too as energon changed
-            this.updateAllyShopUI('wheeljack');
+
+            // Update all ally shop UIs
+            Object.keys(GAME_DATA.allies).forEach(key => {
+                this.updateAllyShopUI(key);
+            });
         }
     }
 
-    buyBumblebee() {
-        this.buyAlly('bumblebee', this.buyBumblebeeBtn);
-    }
-
-    buyWheeljack() {
-        this.buyAlly('wheeljack', this.buyWheeljackBtn);
-    }
-
-    buyAlly(allyKey, btnElement) {
+    buyAlly(allyKey) {
+        const btnElement = this.allyShopElements[allyKey].btn;
         const allyData = GAME_DATA.allies[allyKey];
         const currentAlly = this.allies[allyKey];
         const level = currentAlly ? currentAlly.level : 0;
@@ -485,8 +497,11 @@ class Game {
             this.triggerLevelUpAnimation(btnElement);
             this.updatePlayerUI();
             this.updateUpgradeUI(); // Update weapon shop as energon changed
-            this.updateAllyShopUI('bumblebee');
-            this.updateAllyShopUI('wheeljack');
+
+            // Update all ally shop UIs
+            Object.keys(GAME_DATA.allies).forEach(key => {
+                this.updateAllyShopUI(key);
+            });
         }
     }
 
