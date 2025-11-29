@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ClickerBots: Grid Layout Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style_grid.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <!-- Enemy Card Grid -->
+        <div class="enemy-card">
+            <!-- LEFT: Enemy Image Only (4x6) -->
+            <div class="enemy-image-container">
+                <img src="assets/cards/enemies/Thrust.png" class="enemy-image" alt="Enemy">
+                <img src="assets/frames/card frame 1.png" class="card-frame" alt="Frame">
+            </div>
+
+            <!-- RIGHT: Info Panel (8x6) -->
+            <!-- Row 1: Wave & Round Info -->
+            <div class="wave-info">
+                <span class="wave-text">WAVE <span class="wave-num">1</span></span>
+                <span class="round-text">ROUND <span class="round-num">1</span></span>
+            </div>
+
+            <!-- Row 2: Enemy Name & Level -->
+            <div class="enemy-info">
+                <div class="enemy-name">Thrust</div>
+                <div class="enemy-level">Lv 1</div>
+            </div>
+
+            <!-- Row 3: HP Label -->
+            <div class="hp-bar-label">
+                <span>HP</span>
+                <span class="hp-text">750 / 1000</span>
+            </div>
+
+            <!-- Row 4: HP Bar -->
+            <div class="hp-bar-container">
+                <div class="hp-bar-fill" style="width: 75%;"></div>
+            </div>
+
+            <!-- Row 5: Attack Label -->
+            <div class="attack-bar-label">
+                <span>ATTACK TIMER</span>
+            </div>
+
+            <!-- Row 6: Attack Bar -->
+            <div class="attack-bar-container">
+                <div class="attack-bar-fill" style="width: 30%;"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
