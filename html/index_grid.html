@@ -13,25 +13,20 @@
 
 <body>
     <div class="game-container">
-        <!-- Block 1: Enemy Card (12x6) -->
+        <!-- Block 1: Enemy Card -->
         <div class="enemy-card">
-            <!-- LEFT: Enemy Image (4x6) -->
             <div class="enemy-image-container">
                 <img src="assets/cards/enemies/Thrust.png" class="enemy-image" alt="Enemy">
                 <img src="assets/frames/card frame 1.png" class="card-frame" alt="Frame">
             </div>
-
-            <!-- RIGHT: Enemy Info (8x6) -->
             <div class="wave-info">
-                <span class="wave-text">WAVE <span class="wave-num">1</span></span>
-                <span class="round-text">ROUND <span class="round-num">1</span></span>
+                <span class="wave-text">WAVE <span>1</span></span>
+                <span class="round-text">ROUND <span>1</span></span>
             </div>
-
             <div class="enemy-info">
                 <div class="enemy-name">Thrust</div>
                 <div class="enemy-level">Lv 1</div>
             </div>
-
             <div class="hp-bar-label">
                 <span>HP</span>
                 <span class="hp-text">750 / 1000</span>
@@ -39,7 +34,6 @@
             <div class="hp-bar-container">
                 <div class="hp-bar-fill" style="width: 75%;"></div>
             </div>
-
             <div class="attack-bar-label">
                 <span>ATTACK TIMER</span>
             </div>
@@ -48,9 +42,8 @@
             </div>
         </div>
 
-        <!--Block 2: Player Stats (12x2) -->
+        <!-- Block 2: Player Stats -->
         <div class="player-stats-block">
-            <!-- LEFT: Player Health (8x2) -->
             <div class="player-health-section">
                 <div class="player-health-label">
                     <span>PLAYER HEALTH</span>
@@ -60,13 +53,124 @@
                     <div class="player-hp-bar-fill" style="width: 85%;"></div>
                 </div>
             </div>
-
-            <!-- RIGHT: Energon Display (4x2) -->
             <div class="energon-section">
                 <div class="energon-label">Energon:</div>
                 <div class="energon-display">
                     <img src="assets/energon.png" class="energon-icon" alt="Energon">
                     <span class="energon-count">1234</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Block 3: Allies -->
+        <div class="allies-block">
+            <div class="ally-card">
+                <img src="assets/cards/allies/Bumblebee.png" class="ally-image" alt="Ally">
+                <div class="ally-hp-bar">
+                    <div class="ally-hp-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="ally-card">
+                <img src="assets/cards/allies/Bumblebee.png" class="ally-image" alt="Ally">
+                <div class="ally-hp-bar">
+                    <div class="ally-hp-fill" style="width: 80%;"></div>
+                </div>
+            </div>
+            <div class="ally-card">
+                <img src="assets/cards/allies/Bumblebee.png" class="ally-image" alt="Ally">
+                <div class="ally-hp-bar">
+                    <div class="ally-hp-fill" style="width: 60%;"></div>
+                </div>
+            </div>
+            <div class="ally-card">
+                <img src="assets/cards/allies/Bumblebee.png" class="ally-image" alt="Ally">
+                <div class="ally-hp-bar">
+                    <div class="ally-hp-fill" style="width: 90%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Block 4: Upgrades (with scroll) -->
+        <div class="upgrades-block">
+            <!-- Weapon Upgrade -->
+            <div class="weapon-upgrade">
+                <div class="upgrade-info">
+                    <div class="upgrade-name">Weapon Damage</div>
+                    <div class="upgrade-level">Lv 3 → 4</div>
+                </div>
+                <div class="upgrade-cost">
+                    <img src="assets/energon.png" class="upgrade-cost-icon" alt="Cost">
+                    <span class="cost-amount">500</span>
+                </div>
+            </div>
+
+            <!-- Bot Upgrades Container (scrollable) -->
+            <div class="bot-upgrades-container">
+                <div class="bot-upgrade">
+                    <img src="assets/cards/allies/Bumblebee.png" class="bot-upgrade-image" alt="Bot">
+                    <div class="bot-upgrade-info">
+                        <div class="bot-upgrade-name">Bumblebee</div>
+                        <div class="bot-upgrade-stats">DMG: 10 → 15</div>
+                    </div>
+                    <div class="bot-upgrade-cost">
+                        <img src="assets/energon.png" class="upgrade-cost-icon" alt="Cost">
+                        <span class="cost-amount">300</span>
+                    </div>
+                </div>
+                <div class="bot-upgrade">
+                    <img src="assets/cards/allies/Wheeljack.png" class="bot-upgrade-image" alt="Bot">
+                    <div class="bot-upgrade-info">
+                        <div class="bot-upgrade-name">Wheeljack</div>
+                        <div class="bot-upgrade-stats">DMG: 8 → 12</div>
+                    </div>
+                    <div class="bot-upgrade-cost">
+                        <img src="assets/energon.png" class="upgrade-cost-icon" alt="Cost">
+                        <span class="cost-amount">250</span>
+                    </div>
+                </div>
+                <div class="bot-upgrade">
+                    <img src="assets/cards/allies/Bumblebee.png" class="bot-upgrade-image" alt="Bot">
+                    <div class="bot-upgrade-info">
+                        <div class="bot-upgrade-name">Ironhide</div>
+                        <div class="bot-upgrade-stats">DMG: 12 → 18</div>
+                    </div>
+                    <div class="bot-upgrade-cost">
+                        <img src="assets/energon.png" class="upgrade-cost-icon" alt="Cost">
+                        <span class="cost-amount">400</span>
+                    </div>
+                </div>
+                <div class="bot-upgrade">
+                    <img src="assets/cards/allies/Bumblebee.png" class="bot-upgrade-image" alt="Bot">
+                    <div class="bot-upgrade-info">
+                        <div class="bot-upgrade-name">Ironhide</div>
+                        <div class="bot-upgrade-stats">DMG: 12 → 18</div>
+                    </div>
+                    <div class="bot-upgrade-cost">
+                        <img src="assets/energon.png" class="upgrade-cost-icon" alt="Cost">
+                        <span class="cost-amount">400</span>
+                    </div>
+                </div>
+                <div class="bot-upgrade">
+                    <img src="assets/cards/allies/Bumblebee.png" class="bot-upgrade-image" alt="Bot">
+                    <div class="bot-upgrade-info">
+                        <div class="bot-upgrade-name">Ironhide</div>
+                        <div class="bot-upgrade-stats">DMG: 12 → 18</div>
+                    </div>
+                    <div class="bot-upgrade-cost">
+                        <img src="assets/energon.png" class="upgrade-cost-icon" alt="Cost">
+                        <span class="cost-amount">400</span>
+                    </div>
+                </div>
+                <div class="bot-upgrade">
+                    <img src="assets/cards/allies/Bumblebee.png" class="bot-upgrade-image" alt="Bot">
+                    <div class="bot-upgrade-info">
+                        <div class="bot-upgrade-name">Ironhide</div>
+                        <div class="bot-upgrade-stats">DMG: 12 → 18</div>
+                    </div>
+                    <div class="bot-upgrade-cost">
+                        <img src="assets/energon.png" class="upgrade-cost-icon" alt="Cost">
+                        <span class="cost-amount">400</span>
+                    </div>
                 </div>
             </div>
         </div>
