@@ -17,10 +17,10 @@ class Game {
 
         // Audio
         this.sounds = {
-            playerAttack: new Audio('assets/player_attack.wav'),
-            allyAttack: new Audio('assets/ally_attack.wav'),
-            enemyAttack: new Audio('assets/enemy_attack.wav'),
-            bossAttack: new Audio('assets/boss_attack.wav')
+            playerAttack: new Audio('assets/sfx/player_attack.wav'),
+            allyAttack: new Audio('assets/sfx/ally_attack.wav'),
+            enemyAttack: new Audio('assets/sfx/enemy_attack.wav'),
+            bossAttack: new Audio('assets/sfx/boss_attack.wav')
         };
         // Volume
         this.sounds.playerAttack.volume = 0.4;
