@@ -102,7 +102,7 @@ const GAME_DATA = {
     ],
     upgrades: {
         weapon: {
-            name: "Laser Cannon",
+            name: "Blaster",
             image: "assets/icons/weapon.png",
             baseCost: 10,
             costMultiplier: 1.5

@@ -63,6 +63,7 @@ class Game {
         this.weaponLevelEl = document.getElementById('weapon-level');
         this.weaponDamageInfoEl = document.getElementById('weapon-damage-info');
         this.weaponUpgradeIcon = document.getElementById('weapon-upgrade-icon');
+        this.weaponNameEl = document.getElementById('upgrade-name');
 
         this.alliesContainer = document.getElementById('allies-container');
 
@@ -209,6 +210,7 @@ class Game {
     updateUpgradeUI() {
         const weaponData = GAME_DATA.upgrades.weapon;
         this.weaponUpgradeIcon.src = weaponData.image;
+        this.weaponNameEl.textContent = weaponData.name;
         // Cost formula: base * (multiplier ^ (level - 1))
         const cost = Math.floor(weaponData.baseCost * Math.pow(weaponData.costMultiplier, this.player.weaponLevel - 1));
 
