@@ -62,6 +62,7 @@ class Game {
         this.weaponCostEl = document.getElementById('weapon-cost');
         this.weaponLevelEl = document.getElementById('weapon-level');
         this.weaponDamageInfoEl = document.getElementById('weapon-damage-info');
+        this.weaponUpgradeIcon = document.getElementById('weapon-upgrade-icon');
 
         this.alliesContainer = document.getElementById('allies-container');
 
@@ -182,7 +183,7 @@ class Game {
 
         // Update card frame based on enemy level (1-6)
         const frameLevel = Math.min(enemyLevel, 6); // Cap at level 6
-        this.cardFrameEl.src = `assets/card frame ${frameLevel}.png`;
+        this.cardFrameEl.src = `assets/frames/card frame ${frameLevel}.png`;
 
         this.waveNumEl.textContent = wave.id;
         this.roundNumEl.textContent = this.currentEnemyIndex + 1;
@@ -207,6 +208,7 @@ class Game {
 
     updateUpgradeUI() {
         const weaponData = GAME_DATA.upgrades.weapon;
+        this.weaponUpgradeIcon.src = weaponData.image;
         // Cost formula: base * (multiplier ^ (level - 1))
         const cost = Math.floor(weaponData.baseCost * Math.pow(weaponData.costMultiplier, this.player.weaponLevel - 1));
 

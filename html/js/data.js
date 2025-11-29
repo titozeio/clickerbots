@@ -8,7 +8,7 @@ const GAME_DATA = {
     enemyTypes: {
         titan_prime: {
             name: "Titan Prime",
-            image: "assets/enemy_robot.png",
+            image: "assets/cards/enemies/enemy_robot.png",
             hp: 20,
             maxHp: 20,
             damage: 10,
@@ -17,7 +17,7 @@ const GAME_DATA = {
         },
         omega_boss: {
             name: "Omega Boss",
-            image: "assets/boss_robot.png",
+            image: "assets/cards/bosses/boss_robot.png",
             hp: 50,
             maxHp: 50,
             damage: 10,
@@ -26,7 +26,7 @@ const GAME_DATA = {
         },
         bombshell: {
             name: "Bombshell",
-            image: "assets/bombshell.png",
+            image: "assets/cards/enemies/bombshell.png",
             hp: 20,
             maxHp: 20,
             damage: 10,
@@ -35,7 +35,7 @@ const GAME_DATA = {
         },
         venom: {
             name: "Venom",
-            image: "assets/venom.png",
+            image: "assets/cards/enemies/venom.png",
             hp: 50,
             maxHp: 50,
             damage: 10,
@@ -45,7 +45,7 @@ const GAME_DATA = {
         ,
         reflector: {
             name: "Reflector",
-            image: "assets/Reflector.png",
+            image: "assets/cards/enemies/Reflector.png",
             hp: 30,
             maxHp: 30,
             damage: 15,
@@ -54,7 +54,7 @@ const GAME_DATA = {
         },
         runabout: {
             name: "Runabout & Runamuck",
-            image: "assets/Runabout.png",
+            image: "assets/cards/enemies/Runabout.png",
             hp: 40,
             maxHp: 40,
             damage: 10,
@@ -64,7 +64,7 @@ const GAME_DATA = {
         ,
         thrust: {
             name: "Thrust",
-            image: "assets/Thrust.png",
+            image: "assets/cards/enemies/Thrust.png",
             hp: 100,
             maxHp: 100,
             damage: 30,
@@ -102,6 +102,8 @@ const GAME_DATA = {
     ],
     upgrades: {
         weapon: {
+            name: "Laser Cannon",
+            image: "assets/icons/weapon.png",
             baseCost: 10,
             costMultiplier: 1.5
         }
@@ -109,7 +111,7 @@ const GAME_DATA = {
     allies: {
         bumblebee: {
             name: "Bumblebee",
-            image: "assets/bumblebee.png",
+            image: "assets/cards/allies/bumblebee.png",
             baseHp: 50,
             baseDamage: 5,
             baseAttackSpeed: 1000, // ms
@@ -120,7 +122,7 @@ const GAME_DATA = {
         },
         wheeljack: {
             name: "Wheeljack",
-            image: "assets/wheeljack.png",
+            image: "assets/cards/allies/wheeljack.png",
             baseHp: 50,
             baseDamage: 5,
             baseAttackSpeed: 1000, // ms
