@@ -459,7 +459,7 @@ body::before {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 6px;
     padding: 4px 4px;
-    margin-left: auto;
+    text-align: center;
 }
 
 
@@ -523,7 +523,7 @@ body::before {
 .bot-upgrades-container {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 2px;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 4px;
@@ -549,7 +549,7 @@ body::before {
 .bot-upgrade {
     display: grid;
     grid-template-columns: auto 1fr auto auto auto auto;
-    gap: 10px;
+    gap: 4px;
     align-items: center;
     justify-items: start;
     background: rgba(255, 255, 255, 0.03);
@@ -588,11 +588,20 @@ body::before {
     align-items: flex-start;
 }
 
+.bot-upgrade .dmg-val {
+    color: var(--secondary-color);
+    text-shadow: 0 0 8px var(--secondary-color);
+}
+
 .upgrade-name {
     font-size: 0.9rem;
     font-weight: bold;
     color: var(--player-color);
     text-shadow: 0 0 8px var(--player-color);
+}
+
+.bot-upgrade .weapon-damage {
+    display: none;
 }
 
 .upgrade-level {
