@@ -588,6 +588,27 @@ body::before {
     gap: 2px;
 }
 
+.upgrade-name-level {
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.upgrade-name {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--player-color);
+    text-shadow: 0 0 8px var(--player-color);
+}
+
+.upgrade-level {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-shadow: 0 0 8px var(--primary-color);
+}
+
 .bot-upgrade-name {
     font-size: 0.9rem;
     font-weight: bold;
