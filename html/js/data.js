@@ -26,7 +26,7 @@ const GAME_DATA = {
         },
         bombshell: {
             name: "Bombshell",
-            image: "assets/cards/enemies/bombshell.png",
+            image: "assets/cards/enemies/bombshell.jpg",
             hp: 20,
             maxHp: 20,
             damage: 10,
@@ -35,7 +35,7 @@ const GAME_DATA = {
         },
         venom: {
             name: "Venom",
-            image: "assets/cards/enemies/venom.png",
+            image: "assets/cards/enemies/venom.jpg",
             hp: 50,
             maxHp: 50,
             damage: 10,
@@ -45,7 +45,7 @@ const GAME_DATA = {
         ,
         reflector: {
             name: "Reflector",
-            image: "assets/cards/enemies/Reflector.png",
+            image: "assets/cards/enemies/reflector.jpg",
             hp: 30,
             maxHp: 30,
             damage: 15,
@@ -54,7 +54,7 @@ const GAME_DATA = {
         },
         runabout: {
             name: "Runabout & Runamuck",
-            image: "assets/cards/enemies/Runabout.png",
+            image: "assets/cards/enemies/runabout.jpg",
             hp: 40,
             maxHp: 40,
             damage: 10,
@@ -64,7 +64,7 @@ const GAME_DATA = {
         ,
         thrust: {
             name: "Thrust",
-            image: "assets/cards/enemies/Thrust.png",
+            image: "assets/cards/enemies/thrust.jpg",
             hp: 100,
             maxHp: 100,
             damage: 30,
@@ -111,7 +111,7 @@ const GAME_DATA = {
     allies: {
         bumblebee: {
             name: "Bumblebee",
-            image: "assets/cards/allies/bumblebee.png",
+            image: "assets/cards/allies/bumblebee.jpg",
             baseHp: 50,
             baseDamage: 5,
             baseAttackSpeed: 1000, // ms
@@ -122,7 +122,7 @@ const GAME_DATA = {
         },
         wheeljack: {
             name: "Wheeljack",
-            image: "assets/cards/allies/wheeljack.png",
+            image: "assets/cards/allies/wheeljack.jpg",
             baseHp: 50,
             baseDamage: 50,
             baseAttackSpeed: 2000, // ms
