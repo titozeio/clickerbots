@@ -2,7 +2,7 @@ const GAME_DATA = {
     player: {
         hp: 100,
         maxHp: 100,
-        energon: 10000,
+        energon: 0,
         weaponLevel: 1
     },
     enemyTypes: {
