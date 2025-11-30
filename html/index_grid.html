@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ClickerBots: Grid Layout Test</title>
+    <title>ClickerBots: Titan Rising</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
@@ -12,138 +12,104 @@
 </head>
 
 <body>
+    <!-- Overlays for Visual Effects -->
+    <div id="screen-flash" class="screen-flash"></div>
+    <div id="boss-warning-overlay" class="boss-warning-overlay">WARNING!! // BOSS APPROACHING!!</div>
+    <div id="wave-complete-overlay" class="wave-complete-overlay">
+        WAVE COMPLETE!<br><span class="wave-sub">PREPARE FOR THE NEXT CHALLENGE</span>
+    </div>
+
     <div class="game-container">
         <!-- Block 1: Enemy Card -->
-        <div class="enemy-card">
+        <div id="enemy-card" class="enemy-card">
             <div class="enemy-image-container">
-                <img src="assets/cards/enemies/Thrust.jpg" class="enemy-image" alt="Enemy">
-                <img src="assets/frames/card frame 1.png" class="card-frame" alt="Frame">
+                <img id="enemy-image" src="" class="enemy-image" alt="Enemy">
+                <img id="card-frame" src="assets/frames/card frame 1.png" class="card-frame" alt="Frame">
             </div>
             <div class="wave-info">
-                <span class="wave-text">WAVE <span>1</span></span>
-                <span class="round-text">ROUND <span>1</span></span>
+                <span class="wave-text">WAVE <span id="wave-num">1</span></span>
+                <span class="round-text">ROUND <span id="round-num">1</span></span>
             </div>
             <div class="enemy-info">
-                <div class="enemy-name">Thrust</div>
-                <div class="enemy-level">Lv 1</div>
+                <div id="enemy-name" class="enemy-name">Loading...</div>
+                <div class="enemy-level">Lv <span id="enemy-level">1</span></div>
             </div>
             <div class="hp-bar-label">
                 <span>HP</span>
-                <span class="hp-text">750 / 1000</span>
+                <span id="enemy-hp-text" class="hp-text">0 / 0</span>
             </div>
             <div class="hp-bar-container">
-                <div class="hp-bar-fill" style="width: 75%;"></div>
+                <div id="enemy-hp-fill" class="hp-bar-fill" style="width: 100%;"></div>
             </div>
             <div class="attack-bar-label">
                 <span>ATTACK TIMER</span>
             </div>
             <div class="attack-bar-container">
-                <div class="attack-bar-fill" style="width: 30%;"></div>
+                <div id="attack-fill" class="attack-bar-fill" style="width: 0%;"></div>
             </div>
         </div>
 
         <!-- Block 2: Player Stats -->
         <div class="player-stats-block">
-            <div class="player-health-section">
+            <div class="player-health-section player-section">
                 <div class="player-health-label">
                     <span>PLAYER HEALTH</span>
-                    <span class="player-hp-text">850 / 1000</span>
+                    <span id="player-hp-text" class="player-hp-text">100 / 100</span>
                 </div>
                 <div class="player-hp-bar-container">
-                    <div class="player-hp-bar-fill" style="width: 85%;"></div>
+                    <div id="player-hp-fill" class="player-hp-bar-fill" style="width: 100%;"></div>
                 </div>
             </div>
             <div class="energon-section">
                 <div class="energon-label">Energon:</div>
                 <div class="energon-display">
                     <img src="assets/icons/energon.png" class="energon-icon" alt="Energon">
-                    <span class="energon-count">1234</span>
+                    <span id="energon-count" class="energon-count">0</span>
                 </div>
             </div>
         </div>
 
-        <!-- Block 3: Allies -->
-        <div class="allies-block">
-            <div class="ally-card">
-                <img src="assets/cards/allies/bumblebee.jpg" class="ally-image" alt="Ally">
-                <div class="ally-hp-bar">
-                    <div class="ally-hp-fill" style="width: 100%;"></div>
-                </div>
-                <div class="ally-attack-bar">
-                    <div class="ally-attack-fill" style="width: 100%;"></div>
-                </div>
-            </div>
-            <div class="ally-card">
-                <img src="assets/cards/allies/bumblebee.jpg" class="ally-image" alt="Ally">
-                <div class="ally-hp-bar">
-                    <div class="ally-hp-fill" style="width: 80%;"></div>
-                </div>
-            </div>
-            <div class="ally-card">
-                <img src="assets/cards/allies/bumblebee.jpg" class="ally-image" alt="Ally">
-                <div class="ally-hp-bar">
-                    <div class="ally-hp-fill" style="width: 60%;"></div>
-                </div>
-            </div>
-            <div class="ally-card">
-                <img src="assets/cards/allies/bumblebee.jpg" class="ally-image" alt="Ally">
-                <div class="ally-hp-bar">
-                    <div class="ally-hp-fill" style="width: 90%;"></div>
-                </div>
-            </div>
+        <!-- Block 3: Allies (Dynamic) -->
+        <div id="allies-container" class="allies-block">
+            <!-- Ally cards will be dynamically inserted here by JavaScript -->
         </div>
 
         <!-- Block 4: Upgrades (with scroll) -->
         <div class="upgrades-block">
             <!-- Weapon Upgrade -->
-            <div class="weapon-upgrade">
-                <img src="assets/icons/weapon.png" class="weapon-icon" alt="Weapon">
+            <button id="upgrade-weapon-btn" class="weapon-upgrade">
+                <img id="weapon-upgrade-icon" src="" class="weapon-icon" alt="Weapon">
                 <div class="upgrade-name-level">
-                    <div class="upgrade-name">Blaster</div>
-                    <div class="upgrade-level">Lv 3</div>
+                    <div id="upgrade-name" class="upgrade-name">Laser Cannon</div>
+                    <div id="weapon-level" class="upgrade-level">Lv 1</div>
                 </div>
                 <div class="weapon-damage">
                     <div class="weapon-damage-label">DMG</div>
-                    <div class="weapon-damage-value">10</div>
+                    <div id="weapon-damage-info" class="weapon-damage-value">1 >> 2</div>
                 </div>
                 <div class="weapon-next">
-                    <div class="next-label">Next</div>
-                    <div class="next-damage">20</div>
+                    <div class="next-label">Cost</div>
+                    <div class="next-damage"><span id="weapon-cost">10</span> E</div>
                 </div>
-                <div class="upgrade-cost">
-                    <img src="assets/icons/energon.png" class="upgrade-cost-icon" alt="Cost">
-                    <span class="cost-amount">300</span>
-                </div>
-            </div>
+            </button>
 
-            <!-- Bot Upgrades Container (scrollable) -->
-            <div class="bot-upgrades-container">
-                <div class="bot-upgrade">
-                    <img src="assets/cards/allies/bumblebee.jpg" class="bot-upgrade-image" alt="Bot">
-                    <div class="upgrade-name-level">
-                        <div class="upgrade-name">Bumblebee</div>
-                        <div class="upgrade-level">Lv 3</div>
-                    </div>
-                    <div class="weapon-damage">
-                        <div class="weapon-damage-label">DMG</div>
-                        <div class="weapon-damage-value">10</div>
-                    </div>
-                    <div class="weapon-speed">
-                        <div class="weapon-speed-label">Atk. S.</div>
-                        <div class="weapon-speed-value">1.0</div>
-                    </div>
-                    <div class="weapon-next">
-                        <div class="next-label">Next</div>
-                        <div class="next-damage">25 / 1.2</div>
-                    </div>
-                    <div class="upgrade-cost">
-                        <img src="assets/icons/energon.png" class="upgrade-cost-icon" alt="Cost">
-                        <span class="cost-amount">300</span>
-                    </div>
-                </div>
+            <!-- Bot Upgrades Container (scrollable, dynamic) -->
+            <div id="ally-upgrades-list" class="bot-upgrades-container">
+                <!-- Ally upgrades will be dynamically inserted here by JavaScript -->
             </div>
         </div>
     </div>
+
+    <!-- Game Over / Win Overlay -->
+    <div id="game-overlay" class="overlay">
+        <div class="message-box">
+            <h1 id="overlay-title" class="message-title">GAME OVER</h1>
+            <button id="restart-btn" class="restart-btn">Reboot System</button>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/game.js"></script>
 </body>
 
 </html>

@@ -108,23 +108,30 @@ class Game {
 
         for (const [key, data] of Object.entries(GAME_DATA.allies)) {
             const btn = document.createElement('button');
-            btn.className = 'upgrade-btn';
+            btn.className = 'bot-upgrade';
             btn.id = `buy-ally-${key}-btn`;
             btn.innerHTML = `
-                <div class="upgrade-level-up-text">LEVEL UP!</div>
-                <div class="upgrade-icon-wrapper">
-                    <img src="${data.image}" class="upgrade-icon" alt="${data.name}">
+                <img src="${data.image}" class="bot-upgrade-image" alt="${data.name}">
+                <div class="upgrade-name-level">
+                    <div class="upgrade-name">${data.name}</div>
+                    <div class="upgrade-level">Lv 0</div>
                 </div>
-                <div class="upgrade-details">
-                    <span class="upgrade-name">${data.name}</span>
-                    <span class="upgrade-cost-text"><span class="cost-val">0</span> Energon</span>
-                    <div class="upgrade-stats-row">
-                        <span class="hp-val upgrade-info-text">HP: 0</span>
-                        <span class="dmg-val upgrade-info-text">Dmg: 0</span>
-                        <span class="speed-val upgrade-info-text">Spd: 0s</span>
-                    </div>
+                <div class="weapon-damage">
+                    <div class="weapon-damage-label">HP</div>
+                    <div class="weapon-damage-value hp-val">0</div>
                 </div>
-                <div class="upgrade-level-badge">Lv 0</div>
+                <div class="weapon-speed">
+                    <div class="weapon-speed-label">DMG</div>
+                    <div class="weapon-speed-value dmg-val">0</div>
+                </div>
+                <div class="weapon-next">
+                    <div class="next-label">Spd</div>
+                    <div class="next-damage speed-val">0s</div>
+                </div>
+                <div class="upgrade-cost">
+                    <img src="assets/icons/energon.png" class="upgrade-cost-icon" alt="Cost">
+                    <span class="cost-amount cost-val">0</span>
+                </div>
             `;
 
             btn.addEventListener('click', () => this.buyAlly(key));
@@ -134,7 +141,7 @@ class Game {
             this.allyShopElements[key] = {
                 btn: btn,
                 cost: btn.querySelector('.cost-val'),
-                level: btn.querySelector('.upgrade-level-badge'),
+                level: btn.querySelector('.upgrade-level'),
                 hp: btn.querySelector('.hp-val'),
                 dmg: btn.querySelector('.dmg-val'),
                 speed: btn.querySelector('.speed-val')
@@ -271,20 +278,17 @@ class Game {
         // Cost formula
         const cost = Math.floor(allyData.baseCost * Math.pow(allyData.costMultiplier, level));
 
-        // Stats for next level (or current if level 0)
+        // Stats for next level (what you will get when you buy)
         const nextLevel = level + 1;
-        const hp = Math.floor(allyData.baseHp * Math.pow(allyData.hpMultiplier, level));
-        const dmg = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, level));
-
         const nextHp = Math.floor(allyData.baseHp * Math.pow(allyData.hpMultiplier, nextLevel - 1));
         const nextDmg = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, nextLevel - 1));
 
         // Update DOM
         elements.cost.textContent = cost;
         elements.level.textContent = `Lv ${level}`;
-        elements.hp.textContent = `HP: ${hp} > ${nextHp}`;
-        elements.dmg.textContent = `Dmg: ${dmg} > ${nextDmg}`;
-        elements.speed.textContent = `Spd: ${(allyData.baseAttackSpeed / 1000).toFixed(1)}s`;
+        elements.hp.textContent = nextHp; // HP you'll get
+        elements.dmg.textContent = nextDmg; // Damage you'll get
+        elements.speed.textContent = `${(allyData.baseAttackSpeed / 1000).toFixed(1)}s`;
 
         if (this.player.energon < cost) {
             elements.btn.style.opacity = '0.5';
@@ -512,13 +516,11 @@ class Game {
         card.className = 'ally-card';
         card.innerHTML = `
             <img src="${allyData.image}" class="ally-image" alt="${allyData.name}">
-            <div class="ally-bars">
-                <div class="ally-bar-container ally-hp-bar">
-                    <div class="bar-fill" style="width: 100%;"></div>
-                </div>
-                <div class="ally-bar-container ally-attack-bar">
-                    <div class="bar-fill" style="width: 0%;"></div>
-                </div>
+            <div class="ally-hp-bar">
+                <div class="ally-hp-fill" style="width: 100%;"></div>
+            </div>
+            <div class="ally-attack-bar">
+                <div class="ally-attack-fill" style="width: 0%;"></div>
             </div>
         `;
 
@@ -527,8 +529,8 @@ class Game {
         // Store references
         this.allyElements[allyKey] = {
             card: card,
-            hpBar: card.querySelector('.ally-hp-bar .bar-fill'),
-            attackBar: card.querySelector('.ally-attack-bar .bar-fill')
+            hpBar: card.querySelector('.ally-hp-fill'),
+            attackBar: card.querySelector('.ally-attack-fill')
         };
     }
 

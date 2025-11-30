@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --primary-color: #00f3ff;
     --secondary-color: #ff003c;
     --player-color: #00ff9d;
@@ -674,5 +674,399 @@ body::before {
 
     .energon-count {
         font-size: 1rem;
+    }
+}
+/* ==================== GAME DYNAMICS & ANIMATIONS ==================== */
+
+#enemy-card {
+    cursor: crosshair;
+}
+
+#enemy-card:active {
+    transform: scale(0.98);
+}
+
+.shake {
+    animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+.hit-effect {
+    position: absolute;
+    pointer-events: none;
+    animation: floatUp 0.5s ease-out forwards;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 0 0 5px white;
+    z-index: 20;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-50px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.screen-flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: red;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 0.1s;
+}
+
+.flash-active {
+    opacity: 0.3;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.message-box {
+    background: rgba(10, 10, 30, 0.9);
+    border: 2px solid var(--primary-color);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 50px var(--primary-color);
+    max-width: 90%;
+}
+
+.message-title {
+    font-size: 2.5rem;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+}
+
+.win-text {
+    color: var(--player-color);
+    text-shadow: 0 0 20px var(--player-color);
+}
+
+.lose-text {
+    color: var(--secondary-color);
+    text-shadow: 0 0 20px var(--secondary-color);
+}
+
+.restart-btn {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 10px 30px;
+    font-size: 1.2rem;
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 5px;
+}
+
+.restart-btn:hover {
+    background: var(--primary-color);
+    color: #000;
+    box-shadow: 0 0 20px var(--primary-color);
+}
+
+.flying-energon {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-image: url('../assets/icons/energon.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 100;
+    filter: drop-shadow(0 0 5px var(--primary-color));
+    transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1), opacity 1s ease-in;
+}
+
+@keyframes allyAttack {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    30% {
+        transform: translateY(-20vh) scale(2);
+    }
+
+    50% {
+        transform: translateY(-40vh) scale(1.5);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+.ally-card.attacking {
+    animation: allyAttack 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 30px var(--secondary-color);
+}
+
+.comic-hit {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #ffeb3b 0%, #ff9800 100%);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: comicPop 0.2s ease-out forwards;
+    z-index: 9;
+    pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(255, 87, 34, 0.8));
+    opacity: 0.8;
+}
+
+@keyframes comicPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.5) rotate(20deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(2) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+@keyframes enemyAttack {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+
+    40% {
+        transform: translateY(30px) scale(1.1);
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+.enemy-card.enemy-attacking {
+    animation: enemyAttack 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    z-index: 100;
+    box-shadow: 0 0 50px var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.player-section.player-hit {
+    animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 15px var(--secondary-color) inset;
+}
+
+.boss-warning-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: 900;
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    text-shadow: 0 0 20px var(--secondary-color);
+    letter-spacing: 5px;
+    text-align: center;
+    font-family: var(--font-main);
+}
+
+.boss-warning-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    animation: slideThrough 2s linear forwards;
+}
+
+@keyframes slideThrough {
+    0% {
+        transform: translateX(100%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-100%);
+        opacity: 1;
+    }
+}
+
+.wave-complete-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: var(--player-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 3rem;
+    font-weight: 900;
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+    text-shadow: 0 0 30px var(--player-color);
+    letter-spacing: 5px;
+    text-align: center;
+    font-family: var(--font-main);
+}
+
+.wave-complete-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    animation: victoryPulse 2s ease-in-out;
+}
+
+.wave-sub {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 20px var(--primary-color);
+    margin-top: 20px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+@keyframes victoryPulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    20% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.weapon-upgrade.level-up-glow,
+.bot-upgrade.level-up-glow {
+    animation: weaponGlow 1.2s ease-out;
+}
+
+@keyframes weaponGlow {
+    0% {
+        box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        transform: scale(1);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(0, 243, 255, 0.8);
+        transform: scale(1.05);
+    }
+
+    100% {
+        box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        transform: scale(1);
+    }
+}
+
+.weapon-upgrade {
+    border: none;
+    text-align: left;
+    font-family: var(--font-main);
+}
+
+.weapon-upgrade:hover {
+    transform: translateY(-1px);
+}
+
+.weapon-upgrade:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+
+    .boss-warning-overlay,
+    .wave-complete-overlay {
+        font-size: 2rem;
+    }
+
+    .wave-sub {
+        font-size: 1rem;
+    }
+
+    .message-title {
+        font-size: 2rem;
     }
 }
