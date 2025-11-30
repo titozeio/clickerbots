@@ -525,24 +525,25 @@ body::before {
     flex-direction: column;
     gap: 6px;
     overflow-y: auto;
+    overflow-x: hidden;
     padding-right: 4px;
     flex: 1;
     min-height: 0;
 }
 
 .bot-upgrades-container::-webkit-scrollbar {
-    width: 6px;
+    width: 2px;
 }
 
 .bot-upgrades-container::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.3);
-    border-radius: 3px;
+    border-radius: 2px;
 }
 
 .bot-upgrades-container::-webkit-scrollbar-thumb {
     background: var(--primary-color);
-    border-radius: 3px;
-    box-shadow: 0 0 5px var(--primary-color);
+    border-radius: 2px;
+    box-shadow: 0 0 2px var(--primary-color);
 }
 
 .bot-upgrade {
