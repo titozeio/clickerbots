@@ -90,8 +90,8 @@ const GAME_DATA = {
         {
             id: 1,
             enemies: [
-                { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 },
-                { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "venom", level: 1 }
+                { type: "kickback", level: 1 }, { type: "bombshell", level: 1 }, { type: "kickback", level: 1 }, { type: "bombshell", level: 1 }, { type: "kickback", level: 1 },
+                { type: "bombshell", level: 1 }, { type: "kickback", level: 1 }, { type: "bombshell", level: 1 }, { type: "kickback", level: 1 }, { type: "venom", level: 1 }
             ]
         },
         {
@@ -104,8 +104,8 @@ const GAME_DATA = {
         {
             id: 3,
             enemies: [
-                { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 },
-                { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "venom", level: 2 }
+                { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "bombshell", level: 2 },
+                { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "venom", level: 2 }
             ]
         },
     ],
