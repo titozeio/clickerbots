@@ -2,7 +2,7 @@ const GAME_DATA = {
     player: {
         hp: 100,
         maxHp: 100,
-        energon: 0,
+        energon: 10000000,
         weaponLevel: 1
     },
     enemyTypes: {
@@ -140,46 +140,46 @@ const GAME_DATA = {
             hpMultiplier: 1.2,
             damageMultiplier: 1.2
         },
-        asasas: {
-            name: "asasas",
-            image: "assets/cards/allies/bumblebee.jpg",
-            baseHp: 50,
-            baseDamage: 5,
-            baseAttackSpeed: 1500, // ms
-            baseCost: 10,
+        ratchet: {
+            name: "Ratchet",
+            image: "assets/cards/allies/ratchet.jpg",
+            baseHp: 100,
+            baseDamage: 35,
+            baseAttackSpeed: 2500, // ms
+            baseCost: 1000,
             costMultiplier: 1.6,
             hpMultiplier: 1.2,
             damageMultiplier: 1.2
         },
-        sdfgsd: {
-            name: "sdfgsd",
-            image: "assets/cards/allies/wheeljack.jpg",
-            baseHp: 200,
-            baseDamage: 20,
-            baseAttackSpeed: 3000, // ms
-            baseCost: 100,
+        blaster: {
+            name: "Blaster",
+            image: "assets/cards/allies/blaster.jpg",
+            baseHp: 300,
+            baseDamage: 70,
+            baseAttackSpeed: 1700, // ms
+            baseCost: 10000,
             costMultiplier: 1.6,
             hpMultiplier: 1.2,
             damageMultiplier: 1.2
         },
-        1221: {
-            name: "1221",
-            image: "assets/cards/allies/bumblebee.jpg",
-            baseHp: 50,
-            baseDamage: 5,
-            baseAttackSpeed: 1500, // ms
-            baseCost: 10,
+        grimlock: {
+            name: "Grimlock",
+            image: "assets/cards/allies/grimlock.jpg",
+            baseHp: 500,
+            baseDamage: 200,
+            baseAttackSpeed: 4000, // ms
+            baseCost: 100000,
             costMultiplier: 1.6,
             hpMultiplier: 1.2,
             damageMultiplier: 1.2
         },
-        Wheehjljack: {
-            name: "Wheehjljack",
-            image: "assets/cards/allies/wheeljack.jpg",
-            baseHp: 200,
-            baseDamage: 20,
-            baseAttackSpeed: 3000, // ms
-            baseCost: 100,
+        optimus: {
+            name: "Optimus Prime",
+            image: "assets/cards/allies/optimus.jpg",
+            baseHp: 1000,
+            baseDamage: 200,
+            baseAttackSpeed: 2000, // ms
+            baseCost: 1000000,
             costMultiplier: 1.6,
             hpMultiplier: 1.2,
             damageMultiplier: 1.2
