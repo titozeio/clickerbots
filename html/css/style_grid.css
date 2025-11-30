@@ -56,7 +56,7 @@ body::before {
 
 .game-container {
     width: 100%;
-    max-width: 800px;
+    max-width: 600px;
     padding: 15px;
     height: 100vh;
     display: flex;
