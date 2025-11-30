@@ -2,7 +2,7 @@ const GAME_DATA = {
     player: {
         hp: 100,
         maxHp: 100,
-        energon: 0,
+        energon: 10000,
         weaponLevel: 1
     },
     enemyTypes: {
@@ -131,6 +131,50 @@ const GAME_DATA = {
         },
         wheeljack: {
             name: "Wheeljack",
+            image: "assets/cards/allies/wheeljack.jpg",
+            baseHp: 200,
+            baseDamage: 20,
+            baseAttackSpeed: 3000, // ms
+            baseCost: 100,
+            costMultiplier: 1.6,
+            hpMultiplier: 1.2,
+            damageMultiplier: 1.2
+        },
+        asasas: {
+            name: "asasas",
+            image: "assets/cards/allies/bumblebee.jpg",
+            baseHp: 50,
+            baseDamage: 5,
+            baseAttackSpeed: 1500, // ms
+            baseCost: 10,
+            costMultiplier: 1.6,
+            hpMultiplier: 1.2,
+            damageMultiplier: 1.2
+        },
+        sdfgsd: {
+            name: "sdfgsd",
+            image: "assets/cards/allies/wheeljack.jpg",
+            baseHp: 200,
+            baseDamage: 20,
+            baseAttackSpeed: 3000, // ms
+            baseCost: 100,
+            costMultiplier: 1.6,
+            hpMultiplier: 1.2,
+            damageMultiplier: 1.2
+        },
+        1221: {
+            name: "1221",
+            image: "assets/cards/allies/bumblebee.jpg",
+            baseHp: 50,
+            baseDamage: 5,
+            baseAttackSpeed: 1500, // ms
+            baseCost: 10,
+            costMultiplier: 1.6,
+            hpMultiplier: 1.2,
+            damageMultiplier: 1.2
+        },
+        Wheehjljack: {
+            name: "Wheehjljack",
             image: "assets/cards/allies/wheeljack.jpg",
             baseHp: 200,
             baseDamage: 20,
