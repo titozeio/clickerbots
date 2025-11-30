@@ -230,8 +230,6 @@ body::before {
 .player-stats-block {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: auto auto;
-    gap: 3px 8px;
     background: var(--card-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
@@ -241,12 +239,14 @@ body::before {
 }
 
 .player-health-section {
+    margin-left: 10px;
+    margin-right: 10px;
     grid-column: 1 / span 8;
     grid-row: 1 / span 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 3px;
+    gap: 5px;
 }
 
 .player-health-label {
@@ -294,6 +294,7 @@ body::before {
     border: 1px solid var(--primary-color);
     box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
     padding: 4px;
+    margin-right: 10px;
 }
 
 .energon-label {
@@ -383,12 +384,30 @@ body::before {
     border-radius: 3px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 2px var(--player-color);
 }
 
 .ally-hp-fill {
     height: 100%;
     background: var(--player-color);
     box-shadow: 0 0 8px var(--player-color);
+    transition: width 0.3s ease-out;
+}
+
+.ally-attack-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 2px rgb(229, 140, 227);
+}
+
+.ally-attack-fill {
+    height: 100%;
+    background: rgb(229, 140, 227);
+    box-shadow: 0 0 8px rgb(229, 140, 227);
     transition: width 0.3s ease-out;
 }
 
@@ -407,8 +426,8 @@ body::before {
 
 .weapon-upgrade {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 12px;
+    grid-template-columns: auto 1fr auto auto auto auto;
+    gap: 10px;
     align-items: center;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(0, 243, 255, 0.3);
@@ -424,44 +443,92 @@ body::before {
     transform: translateY(-1px);
 }
 
-.upgrade-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+.weapon-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px var(--primary-color));
 }
 
-.upgrade-name {
+.weapon-name {
     font-size: 0.9rem;
     font-weight: bold;
     color: var(--primary-color);
     text-shadow: 0 0 10px var(--primary-color);
 }
 
-.upgrade-level {
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.upgrade-cost {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 4px 8px;
-    border-radius: 8px;
-}
-
-.upgrade-cost-icon {
-    width: 20px;
-    height: 20px;
-    filter: drop-shadow(0 0 5px var(--primary-color));
-}
-
-.cost-amount {
-    font-size: 1rem;
-    color: var(--primary-color);
+.weapon-level {
+    font-size: 0.8rem;
     font-weight: bold;
+    color: var(--primary-color);
     text-shadow: 0 0 8px var(--primary-color);
+    padding: 10px 4px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+}
+
+.weapon-damage {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    padding: 4px 4px;
+}
+
+
+
+.weapon-damage-label {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.weapon-damage-value {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    font-weight: bold;
+    text-shadow: 0 0 8px var(--secondary-color);
+}
+
+.weapon-speed {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    padding: 4px 4px;
+}
+
+.weapon-speed-label {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.weapon-speed-value {
+    font-size: 0.8rem;
+    color: rgb(225, 83, 221);
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(225, 83, 221, 1);
+}
+
+.weapon-next {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 4px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+}
+
+.next-label {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.next-damage {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+
 }
 
 .bot-upgrades-container {
@@ -491,8 +558,8 @@ body::before {
 
 .bot-upgrade {
     display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 10px;
+    grid-template-columns: auto 1fr auto auto auto auto auto;
+    gap: 2px;
     align-items: center;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(0, 243, 255, 0.2);
@@ -522,7 +589,7 @@ body::before {
 }
 
 .bot-upgrade-name {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: bold;
     color: var(--player-color);
     text-shadow: 0 0 8px var(--player-color);
@@ -533,13 +600,26 @@ body::before {
     color: rgba(255, 255, 255, 0.6);
 }
 
-.bot-upgrade-cost {
+.upgrade-cost {
     display: flex;
     align-items: center;
     gap: 4px;
     background: rgba(0, 0, 0, 0.3);
-    padding: 4px 6px;
+    padding: 12px 6px;
     border-radius: 6px;
+}
+
+.upgrade-cost-icon {
+    width: 16px;
+    height: 16px;
+    filter: drop-shadow(0 0 5px var(--primary-color));
+}
+
+.cost-amount {
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    text-shadow: 0 0 8px var(--primary-color);
 }
 
 @media (max-width: 480px) {
