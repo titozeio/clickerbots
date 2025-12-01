@@ -2,7 +2,7 @@ const GAME_DATA = {
     player: {
         hp: 100,
         maxHp: 100,
-        energon: 10000,
+        energon: 0,
         weaponLevel: 1
     },
     enemyTypes: {
@@ -114,7 +114,7 @@ const GAME_DATA = {
             name: "Blaster",
             image: "assets/icons/weapon.png",
             baseCost: 10,
-            costMultiplier: 1.07
+            costMultiplier: 2
         }
     },
     allies: {
@@ -123,7 +123,7 @@ const GAME_DATA = {
             image: "assets/cards/allies/bumblebee.jpg",
             baseHp: 50,
             baseDamage: 5,
-            baseAttackSpeed: 1500, // ms
+            baseAttackSpeed: 1000, // ms
             baseCost: 20,
             costMultiplier: 1.07,
             hpMultiplier: 1.2,
@@ -134,7 +134,7 @@ const GAME_DATA = {
             name: "Ratchet",
             image: "assets/cards/allies/ratchet.jpg",
             baseHp: 100,
-            baseDamage: 600,
+            baseDamage: 60,
             baseAttackSpeed: 3000, // ms
             baseCost: 100,
             costMultiplier: 1.07,

@@ -296,7 +296,7 @@ class Game {
         // Stats for next level (what you will get when you buy)
         const nextLevel = level + 1;
         const nextHp = Math.floor(allyData.baseHp * Math.pow(allyData.hpMultiplier, nextLevel - 1));
-        const nextDmg = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, nextLevel - 1));
+        const nextDmg = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, nextLevel - 1)) + (nextLevel - 1);
 
         // Update DOM
         elements.cost.textContent = this.formatNumberAbbrev(cost);
@@ -509,7 +509,7 @@ class Game {
                 // Update stats
                 const newLevel = this.allies[allyKey].level;
                 this.allies[allyKey].maxHp = Math.floor(allyData.baseHp * Math.pow(allyData.hpMultiplier, newLevel - 1));
-                this.allies[allyKey].damage = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, newLevel - 1));
+                this.allies[allyKey].damage = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, newLevel - 1)) + (newLevel - 1);
                 this.allies[allyKey].hp = this.allies[allyKey].maxHp; // Heal on upgrade? Sure.
             }
 
