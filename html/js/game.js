@@ -82,6 +82,17 @@ class Game {
         this.init();
     }
 
+    formatNumberAbbrev(num) {
+        if (num < 1000) return Math.floor(num).toString();
+        const suffixes = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc'];
+        const tier = Math.floor(Math.log10(num) / 3);
+        const suffix = tier < suffixes.length ? suffixes[tier] : 'E' + (tier * 3);
+        const scaled = num / Math.pow(10, tier * 3);
+        let formatted = scaled.toFixed(2).replace('.', ',');
+        formatted = formatted.replace(',00', '').replace(/,(\d)0$/, ',$1');
+        return formatted + suffix;
+    }
+
     playSound(key) {
         const sound = this.sounds[key];
         if (sound) {
@@ -235,15 +246,15 @@ class Game {
     updateEnemyUI() {
         const hpPercent = (this.currentEnemy.hp / this.currentEnemy.maxHp) * 100;
         this.enemyHpBar.style.width = `${hpPercent}%`;
-        this.enemyHpText.textContent = `${Math.ceil(this.currentEnemy.hp)} / ${this.currentEnemy.maxHp}`;
+        this.enemyHpText.textContent = `${this.formatNumberAbbrev(Math.ceil(this.currentEnemy.hp))} / ${this.formatNumberAbbrev(this.currentEnemy.maxHp)}`;
     }
 
     updatePlayerUI() {
         const hpPercent = (this.player.hp / this.player.maxHp) * 100;
         this.playerHpBar.style.width = `${hpPercent}%`;
-        this.playerHpText.textContent = `${Math.ceil(this.player.hp)} / ${this.player.maxHp}`;
+        this.playerHpText.textContent = `${this.formatNumberAbbrev(Math.ceil(this.player.hp))} / ${this.formatNumberAbbrev(this.player.maxHp)}`;
 
-        this.energonCountEl.textContent = Math.floor(this.player.energon);
+        this.energonCountEl.textContent = this.formatNumberAbbrev(Math.floor(this.player.energon));
     }
 
     updateUpgradeUI() {
@@ -253,13 +264,13 @@ class Game {
         // Cost formula: base * (multiplier ^ (level - 1))
         const cost = Math.floor(weaponData.baseCost * Math.pow(weaponData.costMultiplier, this.player.weaponLevel - 1));
 
-        this.weaponCostEl.textContent = cost;
+        this.weaponCostEl.textContent = this.formatNumberAbbrev(cost);
         this.weaponLevelEl.textContent = `Lv ${this.player.weaponLevel}`;
 
         // Damage Info
         const currentDmg = this.player.weaponLevel;
         const nextDmg = currentDmg + 1;
-        this.weaponDamageInfoEl.textContent = currentDmg;
+        this.weaponDamageInfoEl.textContent = this.formatNumberAbbrev(currentDmg);
 
         // Disable if not enough money
         if (this.player.energon < cost) {
@@ -288,10 +299,10 @@ class Game {
         const nextDmg = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, nextLevel - 1));
 
         // Update DOM
-        elements.cost.textContent = cost;
+        elements.cost.textContent = this.formatNumberAbbrev(cost);
         elements.level.textContent = `Lv ${level}`;
-        elements.hp.textContent = nextHp; // HP you'll get
-        elements.dmg.textContent = nextDmg; // Damage you'll get
+        elements.hp.textContent = this.formatNumberAbbrev(nextHp); // HP you'll get
+        elements.dmg.textContent = this.formatNumberAbbrev(nextDmg); // Damage you'll get
         elements.speed.textContent = `${(allyData.baseAttackSpeed / 1000).toFixed(1)}s`;
 
         if (this.player.energon < cost) {
