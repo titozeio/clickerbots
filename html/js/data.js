@@ -3,12 +3,12 @@ const GAME_DATA = {
         hp: 100,
         maxHp: 100,
         energon: 0,
-        weaponLevel: 5
+        weaponLevel: 1
     },
     enemyTypes: {
         titan_prime: {
             name: "Titan Prime",
-            image: "assets/enemy_robot.png",
+            image: "assets/cards/enemies/enemy_robot.png",
             hp: 20,
             maxHp: 20,
             damage: 10,
@@ -17,7 +17,7 @@ const GAME_DATA = {
         },
         omega_boss: {
             name: "Omega Boss",
-            image: "assets/boss_robot.png",
+            image: "assets/cards/bosses/boss_robot.png",
             hp: 50,
             maxHp: 50,
             damage: 10,
@@ -26,16 +26,25 @@ const GAME_DATA = {
         },
         bombshell: {
             name: "Bombshell",
-            image: "assets/bombshell.png",
+            image: "assets/cards/enemies/bombshell.jpg",
             hp: 20,
             maxHp: 20,
             damage: 10,
             attackSpeed: 2000,
             energonReward: 10
         },
+        kickback: {
+            name: "Kickback",
+            image: "assets/cards/enemies/kickback.jpg",
+            hp: 18,
+            maxHp: 18,
+            damage: 6,
+            attackSpeed: 1000,
+            energonReward: 10
+        },
         venom: {
             name: "Venom",
-            image: "assets/venom.png",
+            image: "assets/cards/enemies/venom.jpg",
             hp: 50,
             maxHp: 50,
             damage: 10,
@@ -45,7 +54,7 @@ const GAME_DATA = {
         ,
         reflector: {
             name: "Reflector",
-            image: "assets/Reflector.png",
+            image: "assets/cards/enemies/reflector.jpg",
             hp: 30,
             maxHp: 30,
             damage: 15,
@@ -54,7 +63,7 @@ const GAME_DATA = {
         },
         runabout: {
             name: "Runabout & Runamuck",
-            image: "assets/Runabout.png",
+            image: "assets/cards/enemies/runabout.jpg",
             hp: 40,
             maxHp: 40,
             damage: 10,
@@ -64,7 +73,7 @@ const GAME_DATA = {
         ,
         thrust: {
             name: "Thrust",
-            image: "assets/Thrust.png",
+            image: "assets/cards/enemies/thrust.jpg",
             hp: 100,
             maxHp: 100,
             damage: 30,
@@ -81,27 +90,29 @@ const GAME_DATA = {
         {
             id: 1,
             enemies: [
-                { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 },
-                { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "bombshell", level: 1 }, { type: "venom", level: 1 }
+                { type: "kickback", level: 1 }, { type: "bombshell", level: 1 }, { type: "kickback", level: 1 }, { type: "bombshell", level: 1 }, { type: "kickback", level: 1 },
+                { type: "bombshell", level: 1 }, { type: "kickback", level: 1 }, { type: "bombshell", level: 1 }, { type: "kickback", level: 1 }, { type: "venom", level: 1 }
             ]
         },
         {
             id: 2,
             enemies: [
-                { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 },
-                { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "bombshell", level: 2 }, { type: "venom", level: 2 }
+                { type: "reflector", level: 1 }, { type: "runabout", level: 1 }, { type: "reflector", level: 1 }, { type: "runabout", level: 1 }, { type: "reflector", level: 1 },
+                { type: "runabout", level: 1 }, { type: "reflector", level: 1 }, { type: "runabout", level: 1 }, { type: "reflector", level: 1 }, { type: "thrust", level: 1 }
             ]
         },
         {
             id: 3,
             enemies: [
-                { type: "reflector", level: 1 }, { type: "runabout", level: 1 }, { type: "reflector", level: 1 }, { type: "runabout", level: 1 }, { type: "reflector", level: 1 },
-                { type: "runabout", level: 1 }, { type: "reflector", level: 1 }, { type: "runabout", level: 1 }, { type: "reflector", level: 1 }, { type: "thrust", level: 1 }
+                { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "bombshell", level: 2 },
+                { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "venom", level: 2 }
             ]
-        }
+        },
     ],
     upgrades: {
         weapon: {
+            name: "Blaster",
+            image: "assets/icons/weapon.png",
             baseCost: 10,
             costMultiplier: 1.5
         }
@@ -109,10 +120,10 @@ const GAME_DATA = {
     allies: {
         bumblebee: {
             name: "Bumblebee",
-            image: "assets/bumblebee.png",
+            image: "assets/cards/allies/bumblebee.jpg",
             baseHp: 50,
             baseDamage: 5,
-            baseAttackSpeed: 1000, // ms
+            baseAttackSpeed: 1500, // ms
             baseCost: 10,
             costMultiplier: 1.6,
             hpMultiplier: 1.2,
@@ -120,11 +131,55 @@ const GAME_DATA = {
         },
         wheeljack: {
             name: "Wheeljack",
-            image: "assets/wheeljack.png",
-            baseHp: 50,
-            baseDamage: 5,
-            baseAttackSpeed: 1000, // ms
-            baseCost: 10,
+            image: "assets/cards/allies/wheeljack.jpg",
+            baseHp: 200,
+            baseDamage: 20,
+            baseAttackSpeed: 3000, // ms
+            baseCost: 100,
+            costMultiplier: 1.6,
+            hpMultiplier: 1.2,
+            damageMultiplier: 1.2
+        },
+        ratchet: {
+            name: "Ratchet",
+            image: "assets/cards/allies/ratchet.jpg",
+            baseHp: 100,
+            baseDamage: 35,
+            baseAttackSpeed: 2500, // ms
+            baseCost: 1000,
+            costMultiplier: 1.6,
+            hpMultiplier: 1.2,
+            damageMultiplier: 1.2
+        },
+        blaster: {
+            name: "Blaster",
+            image: "assets/cards/allies/blaster.jpg",
+            baseHp: 300,
+            baseDamage: 70,
+            baseAttackSpeed: 1700, // ms
+            baseCost: 10000,
+            costMultiplier: 1.6,
+            hpMultiplier: 1.2,
+            damageMultiplier: 1.2
+        },
+        grimlock: {
+            name: "Grimlock",
+            image: "assets/cards/allies/grimlock.jpg",
+            baseHp: 500,
+            baseDamage: 200,
+            baseAttackSpeed: 4000, // ms
+            baseCost: 100000,
+            costMultiplier: 1.6,
+            hpMultiplier: 1.2,
+            damageMultiplier: 1.2
+        },
+        optimus: {
+            name: "Optimus Prime",
+            image: "assets/cards/allies/optimus.jpg",
+            baseHp: 1000,
+            baseDamage: 200,
+            baseAttackSpeed: 2000, // ms
+            baseCost: 1000000,
             costMultiplier: 1.6,
             hpMultiplier: 1.2,
             damageMultiplier: 1.2

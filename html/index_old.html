@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ClickerBots: Titan Rising</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="screen-flash" class="screen-flash"></div>
+    <div id="boss-warning-overlay" class="boss-warning-overlay">WARNING!! // BOSS APPROACHING!!</div>
+    <div id="wave-complete-overlay" class="wave-complete-overlay">
+        WAVE COMPLETE!<br><span class="wave-sub">PREPARE FOR THE NEXT CHALLENGE</span>
+    </div>
+
+    <div class="game-container">
+        <div class="main-view">
+            <!-- Enemy Section -->
+            <div class="enemy-section">
+                <div id="enemy-card" class="enemy-card">
+                    <div class="enemy-header-compact">
+                        <div class="wave-round-info">
+                            WAVE <span id="wave-num">1</span> | ROUND <span id="round-num">1</span>
+                        </div>
+                        <div class="enemy-name-compact" id="enemy-name">Loading...</div>
+                        <div class="enemy-level-compact">Lv <span id="enemy-level">1</span></div>
+                    </div>
+                    <div class="enemy-image-container">
+                        <img id="enemy-image" class="enemy-image" src="" alt="Enemy Robot">
+                        <img id="card-frame" src="assets/frames/card frame 1.png" class="card-frame" alt="Card Frame">
+                    </div>
+                    <!-- HP Bar -->
+                    <div class="bar-label">
+                        <span>HP</span>
+                        <span id="enemy-hp-text">0 / 0</span>
+                    </div>
+                    <div class="bar-container hp-bar">
+                        <div id="enemy-hp-fill" class="bar-fill" style="width: 100%;"></div>
+                    </div>
+                    <!-- Attack Timer -->
+                    <div class="bar-label">
+                        <span>ATTACK TIMER</span>
+                    </div>
+                    <div class="bar-container attack-bar">
+                        <div id="attack-fill" class="bar-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Allies Section -->
+            <div class="allies-section">
+                <div id="allies-container" class="allies-container">
+                    <!-- Ally cards will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="side-panel">
+            <!-- Player Section -->
+            <div class="player-section">
+                <div class="bar-label">
+                    <span>PLAYER HEALTH</span>
+                    <span id="player-hp-text">100 / 100</span>
+                </div>
+                <div class="bar-container player-hp-bar">
+                    <div id="player-hp-fill" class="bar-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="energon-display">
+                    <img src="assets/energon.png" class="energon-icon" alt="Energon">
+                    <span id="energon-count">0</span>
+                </div>
+
+                <div class="upgrades-list">
+                    <button id="upgrade-weapon-btn" class="upgrade-btn">
+                        <div class="upgrade-level-up-text">LEVEL UP!</div>
+                        <div class="upgrade-icon-wrapper">
+                            <img id="weapon-upgrade-icon" src="" class="upgrade-icon" alt="Weapon">
+                        </div>
+                        <div class="upgrade-details">
+                            <span class="upgrade-name" id="upgrade-name">Laser Cannon</span>
+                            <span class="upgrade-cost-text"><span id="weapon-cost">10</span> Energon</span>
+                            <span id="weapon-damage-info" class="upgrade-info-text">Dmg: 1 >> 2</span>
+                        </div>
+                        <div class="upgrade-level-badge" id="weapon-level">Lv 1</div>
+                    </button>
+
+                    <!-- Dynamic Ally Upgrades -->
+                    <div id="ally-upgrades-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over / Win Overlay -->
+    <div id="game-overlay" class="overlay">
+        <div class="message-box">
+            <h1 id="overlay-title" class="message-title">GAME OVER</h1>
+            <button id="restart-btn" class="restart-btn">Reboot System</button>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/game.js"></script>
+</body>
+
+</html>
