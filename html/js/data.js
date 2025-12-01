@@ -2,7 +2,7 @@ const GAME_DATA = {
     player: {
         hp: 100,
         maxHp: 100,
-        energon: 0,
+        energon: 10000,
         weaponLevel: 1
     },
     enemyTypes: {
@@ -114,7 +114,7 @@ const GAME_DATA = {
             name: "Blaster",
             image: "assets/icons/weapon.png",
             baseCost: 10,
-            costMultiplier: 1.5
+            costMultiplier: 1.07
         }
     },
     allies: {
@@ -124,65 +124,66 @@ const GAME_DATA = {
             baseHp: 50,
             baseDamage: 5,
             baseAttackSpeed: 1500, // ms
-            baseCost: 10,
-            costMultiplier: 1.6,
+            baseCost: 20,
+            costMultiplier: 1.07,
             hpMultiplier: 1.2,
-            damageMultiplier: 1.2
+            damageMultiplier: 1.05
+        },
+
+        ratchet: {
+            name: "Ratchet",
+            image: "assets/cards/allies/ratchet.jpg",
+            baseHp: 100,
+            baseDamage: 600,
+            baseAttackSpeed: 3000, // ms
+            baseCost: 100,
+            costMultiplier: 1.07,
+            hpMultiplier: 1.2,
+            damageMultiplier: 1.055
         },
         wheeljack: {
             name: "Wheeljack",
             image: "assets/cards/allies/wheeljack.jpg",
             baseHp: 200,
-            baseDamage: 20,
-            baseAttackSpeed: 3000, // ms
-            baseCost: 100,
-            costMultiplier: 1.6,
-            hpMultiplier: 1.2,
-            damageMultiplier: 1.2
-        },
-        ratchet: {
-            name: "Ratchet",
-            image: "assets/cards/allies/ratchet.jpg",
-            baseHp: 100,
-            baseDamage: 35,
+            baseDamage: 175,
             baseAttackSpeed: 2500, // ms
-            baseCost: 1000,
-            costMultiplier: 1.6,
+            baseCost: 400,
+            costMultiplier: 1.07,
             hpMultiplier: 1.2,
-            damageMultiplier: 1.2
+            damageMultiplier: 1.057
         },
         blaster: {
             name: "Blaster",
             image: "assets/cards/allies/blaster.jpg",
             baseHp: 300,
-            baseDamage: 70,
-            baseAttackSpeed: 1700, // ms
-            baseCost: 10000,
-            costMultiplier: 1.6,
+            baseDamage: 400,
+            baseAttackSpeed: 1500, // ms
+            baseCost: 1500,
+            costMultiplier: 1.07,
             hpMultiplier: 1.2,
-            damageMultiplier: 1.2
+            damageMultiplier: 1.06
         },
         grimlock: {
             name: "Grimlock",
             image: "assets/cards/allies/grimlock.jpg",
             baseHp: 500,
-            baseDamage: 200,
+            baseDamage: 4000,
             baseAttackSpeed: 4000, // ms
-            baseCost: 100000,
-            costMultiplier: 1.6,
+            baseCost: 5000,
+            costMultiplier: 1.07,
             hpMultiplier: 1.2,
-            damageMultiplier: 1.2
+            damageMultiplier: 1.06
         },
         optimus: {
             name: "Optimus Prime",
             image: "assets/cards/allies/optimus.jpg",
             baseHp: 1000,
-            baseDamage: 200,
+            baseDamage: 8000,
             baseAttackSpeed: 2000, // ms
-            baseCost: 1000000,
-            costMultiplier: 1.6,
+            baseCost: 20000,
+            costMultiplier: 1.07,
             hpMultiplier: 1.2,
-            damageMultiplier: 1.2
+            damageMultiplier: 1.065
         }
     }
 };
