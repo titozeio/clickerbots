@@ -2,7 +2,7 @@ const GAME_DATA = {
     player: {
         hp: 100,
         maxHp: 100,
-        energon: 0,
+        energon: 1000,
         weaponLevel: 1
     },
     enemyTypes: {
@@ -79,12 +79,39 @@ const GAME_DATA = {
             damage: 30,
             attackSpeed: 2000,
             energonReward: 75
+        },
+        rumble_frenzy: {
+            name: "Rumble & Frenzy",
+            image: "assets/cards/enemies/rumble_frenzy.jpg",
+            hp: 60,
+            maxHp: 60,
+            damage: 20,
+            attackSpeed: 2000,
+            energonReward: 20
+        },
+        ravage: {
+            name: "Ravage",
+            image: "assets/cards/enemies/ravage.jpg",
+            hp: 50,
+            maxHp: 50,
+            damage: 5,
+            attackSpeed: 500,
+            energonReward: 20
+        },
+        soundwave: {
+            name: "Soundwave",
+            image: "assets/cards/enemies/soundwave.jpg",
+            hp: 200,
+            maxHp: 200,
+            damage: 60,
+            attackSpeed: 2500,
+            energonReward: 100
         }
     },
     levelMultipliers: {
-        hp: 1.5,
-        damage: 1.2,
-        energon: 1.5
+        hp: 3,
+        damage: 2,
+        energon: 3
     },
     waves: [
         {
@@ -104,14 +131,35 @@ const GAME_DATA = {
         {
             id: 3,
             enemies: [
+                { type: "rumble_frenzy", level: 1 }, { type: "ravage", level: 1 }, { type: "rumble_frenzy", level: 1 }, { type: "ravage", level: 1 }, { type: "rumble_frenzy", level: 1 },
+                { type: "ravage", level: 1 }, { type: "rumble_frenzy", level: 1 }, { type: "ravage", level: 1 }, { type: "rumble_frenzy", level: 1 }, { type: "soundwave", level: 1 }
+            ]
+        },
+        {
+            id: 4,
+            enemies: [
                 { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "bombshell", level: 2 },
                 { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "bombshell", level: 2 }, { type: "kickback", level: 2 }, { type: "venom", level: 2 }
             ]
         },
+        {
+            id: 5,
+            enemies: [
+                { type: "reflector", level: 2 }, { type: "runabout", level: 2 }, { type: "reflector", level: 2 }, { type: "runabout", level: 2 }, { type: "reflector", level: 2 },
+                { type: "runabout", level: 2 }, { type: "reflector", level: 2 }, { type: "runabout", level: 2 }, { type: "reflector", level: 2 }, { type: "thrust", level: 2 }
+            ]
+        },
+        {
+            id: 6,
+            enemies: [
+                { type: "kickback", level: 3 }, { type: "bombshell", level: 3 }, { type: "kickback", level: 3 }, { type: "bombshell", level: 3 }, { type: "kickback", level: 3 },
+                { type: "bombshell", level: 3 }, { type: "kickback", level: 3 }, { type: "bombshell", level: 3 }, { type: "kickback", level: 3 }, { type: "venom", level: 3 }
+            ]
+        }
     ],
     upgrades: {
         weapon: {
-            name: "Blaster",
+            name: "Weapon",
             image: "assets/icons/weapon.png",
             baseCost: 10,
             costMultiplier: 2
@@ -141,12 +189,12 @@ const GAME_DATA = {
             hpMultiplier: 1.2,
             damageMultiplier: 1.055
         },
-        wheeljack: {
-            name: "Wheeljack",
-            image: "assets/cards/allies/wheeljack.jpg",
+        arcee: {
+            name: "Arcee",
+            image: "assets/cards/allies/arcee.jpg",
             baseHp: 200,
-            baseDamage: 175,
-            baseAttackSpeed: 2500, // ms
+            baseDamage: 60,
+            baseAttackSpeed: 800, // ms
             baseCost: 400,
             costMultiplier: 1.07,
             hpMultiplier: 1.2,
@@ -176,7 +224,7 @@ const GAME_DATA = {
         },
         optimus: {
             name: "Optimus Prime",
-            image: "assets/cards/allies/optimus.jpg",
+            image: "assets/cards/allies/optimus2.jpg",
             baseHp: 1000,
             baseDamage: 8000,
             baseAttackSpeed: 2000, // ms
