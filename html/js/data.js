@@ -6,24 +6,6 @@ const GAME_DATA = {
         weaponLevel: 1
     },
     enemyTypes: {
-        titan_prime: {
-            name: "Titan Prime",
-            image: "assets/cards/enemies/enemy_robot.png",
-            hp: 20,
-            maxHp: 20,
-            damage: 10,
-            attackSpeed: 2000,
-            energonReward: 10
-        },
-        omega_boss: {
-            name: "Omega Boss",
-            image: "assets/cards/bosses/boss_robot.png",
-            hp: 50,
-            maxHp: 50,
-            damage: 10,
-            attackSpeed: 1000,
-            energonReward: 50
-        },
         bombshell: {
             name: "Bombshell",
             image: "assets/cards/enemies/bombshell.jpg",
