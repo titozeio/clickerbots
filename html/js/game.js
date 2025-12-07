@@ -5,6 +5,7 @@ class Game {
         this.currentEnemyIndex = 0; // Index within the wave
         this.currentEnemy = null;
         this.lastAttackTime = 0;
+        this.lastFrameTime = 0;
         this.gameLoopId = null;
         this.isPlaying = false;
         this.isBossSpawning = false;
@@ -12,8 +13,8 @@ class Game {
 
 
         // Allies
-        this.allies = {}; // { key: { level: 0, lastAttack: 0, ...data } }
-        this.allyElements = {}; // { key: { card, hpBar, attackBar, ... } }
+        this.allies = {}; // { key: { level: 0, lastAttack: 0, skillCooldown: 0, skillActive: false, skillTimer: 0, ...data } }
+        this.allyElements = {}; // { key: { card, hpBar, attackBar, image, ... } }
 
         // Audio
         this.sounds = {
@@ -74,7 +75,7 @@ class Game {
         this.handleEnemyClick = this.handleEnemyClick.bind(this);
         this.restartGame = this.restartGame.bind(this);
         this.buyWeaponUpgrade = this.buyWeaponUpgrade.bind(this);
-        this.buyAlly = this.buyAlly.bind(this);
+        // this.buyAlly = this.buyAlly.bind(this); // Handled differently now
 
         this.loop = this.loop.bind(this);
         this.playSound = this.playSound.bind(this);
@@ -118,44 +119,133 @@ class Game {
         this.allyShopElements = {};
 
         for (const [key, data] of Object.entries(GAME_DATA.allies)) {
-            const btn = document.createElement('button');
+            const btn = document.createElement('div'); // Div container instead of button to handle internal clicks
             btn.className = 'bot-upgrade';
-            btn.id = `buy-ally-${key}-btn`;
+            btn.id = `buy-ally-${key}-block`;
+
+            // Prepare Skill Info text
+            let skillName = "None";
+            let skillDur = "0s";
+            let skillCD = "0s";
+            let skillDesc = "No skill available.";
+
+            if (data.skill) {
+                skillName = data.skill.name;
+                skillDur = (data.skill.duration / 1000) + 's';
+
+                // Cooldown: convert to seconds. 
+                skillCD = (data.skill.cooldown / 1000) + 's';
+
+                // Parse description for params
+                let desc = data.skill.description;
+                if (data.skill.param1) desc = desc.replace('%%Param1%%', data.skill.param1 + '%');
+                // Extend for other params if needed
+                skillDesc = desc;
+            }
+
+
             btn.innerHTML = `
-                <img src="${data.image}" class="bot-upgrade-image" alt="${data.name}">
-                <div class="upgrade-name-level">
-                    <div class="upgrade-name">${data.name}</div>
-                    <div class="upgrade-level">Lv 0</div>
+                <div class="upgrade-header">
+                    <img src="${data.image}" class="bot-upgrade-image" alt="${data.name}">
+                    <div class="upgrade-name-level">
+                        <div class="upgrade-name">${data.name}</div>
+                        <div class="upgrade-level">Lv 0</div>
+                    </div>
+                    
+                    <!-- Restored Header Info -->
+                    <div class="weapon-damage">
+                        <div class="weapon-damage-label">HP</div>
+                        <div class="weapon-damage-value hp-header">0</div>
+                    </div>
+                    <div class="weapon-speed">
+                        <div class="weapon-speed-label">DMG</div>
+                        <div class="weapon-speed-value dmg-header">0</div>
+                    </div>
+                    <div class="weapon-next">
+                        <div class="next-label">Spd</div>
+                        <div class="next-damage spd-header">0s</div>
+                    </div>
+                    <div class="upgrade-cost">
+                        <img src="assets/icons/energon.png" class="upgrade-cost-icon" alt="Cost">
+                        <span class="cost-amount cost-header">0</span>
+                    </div>
                 </div>
-                <div class="weapon-damage">
-                    <div class="weapon-damage-label">HP</div>
-                    <div class="weapon-damage-value hp-val">0</div>
-                </div>
-                <div class="weapon-speed">
-                    <div class="weapon-speed-label">DMG</div>
-                    <div class="weapon-speed-value dmg-val">0</div>
-                </div>
-                <div class="weapon-next">
-                    <div class="next-label">Spd</div>
-                    <div class="next-damage speed-val">0s</div>
-                </div>
-                <div class="upgrade-cost">
-                    <img src="assets/icons/energon.png" class="upgrade-cost-icon" alt="Cost">
-                    <span class="cost-amount cost-val">0</span>
+
+                <div class="upgrade-expanded-container">
+                    <div class="upgrade-details-row">
+                        <div class="upgrade-stats-block">
+                             <div class="stat-row">Current DPS: <span class="stat-highlight dps-current">0</span></div>
+                             <div class="stat-row">Next: <span class="stat-highlight dmg-next">0</span>, Speed <span class="stat-highlight spd-next">0s</span></div>
+                        </div>
+                        <div class="level-buttons">
+                             <button class="lvl-btn btn-1x">
+                                 +1
+                                 <span class="btn-cost cost-1x">0</span>
+                             </button>
+                             <button class="lvl-btn btn-10x">
+                                 +10
+                                 <span class="btn-cost cost-10x">0</span>
+                             </button>
+                        </div>
+                    </div>
+                    <div class="skill-info-block">
+                        <div class="skill-title">Transformation: ${skillName}</div>
+                        <div class="skill-meta">Duration: ${skillDur} | Cooldown: ${skillCD}</div>
+                        <div class="skill-desc">${skillDesc}</div>
+                    </div>
                 </div>
             `;
 
-            btn.addEventListener('click', () => this.buyAlly(key));
+            // Handle Expand/Collapse
+            btn.addEventListener('click', (e) => {
+                // If clicked on buttons, don't toggle
+                if (e.target.closest('.lvl-btn')) return;
+
+                // Toggle expansion
+                if (btn.classList.contains('expanded')) {
+                    btn.classList.remove('expanded');
+                } else {
+                    // Collapse others? Optional, but cleaner.
+                    document.querySelectorAll('.bot-upgrade.expanded').forEach(el => el.classList.remove('expanded'));
+                    btn.classList.add('expanded');
+                }
+            });
+
+            // Bind Buttons
+            const btn1x = btn.querySelector('.btn-1x');
+            const btn10x = btn.querySelector('.btn-10x');
+
+            btn1x.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.buyAlly(key, 1);
+            });
+
+            btn10x.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.buyAlly(key, 10);
+            });
+
             this.allyUpgradesList.appendChild(btn);
 
             // Store references
             this.allyShopElements[key] = {
-                btn: btn,
-                cost: btn.querySelector('.cost-val'),
+                container: btn,
                 level: btn.querySelector('.upgrade-level'),
-                hp: btn.querySelector('.hp-val'),
-                dmg: btn.querySelector('.dmg-val'),
-                speed: btn.querySelector('.speed-val')
+
+                // Header Elements
+                hpHeader: btn.querySelector('.hp-header'),
+                dmgHeader: btn.querySelector('.dmg-header'),
+                spdHeader: btn.querySelector('.spd-header'),
+                costHeader: btn.querySelector('.cost-header'),
+
+                // Expanded Elements
+                dpsCurrent: btn.querySelector('.dps-current'),
+                dmgNext: btn.querySelector('.dmg-next'),
+                spdNext: btn.querySelector('.spd-next'),
+                cost1x: btn.querySelector('.cost-1x'),
+                cost10x: btn.querySelector('.cost-10x'),
+                btn1x: btn1x,
+                btn10x: btn10x
             };
         }
     }
@@ -189,6 +279,7 @@ class Game {
         // State
         this.isPlaying = true;
         this.lastAttackTime = Date.now();
+        this.lastFrameTime = Date.now();
 
         // Hide Overlay
         this.overlay.classList.remove('active');
@@ -282,6 +373,15 @@ class Game {
         }
     }
 
+    // New helper to calculate cost for N levels
+    calculateBulkCost(allyData, startLevel, count) {
+        let totalCost = 0;
+        for (let i = 0; i < count; i++) {
+            totalCost += Math.floor(allyData.baseCost * Math.pow(allyData.costMultiplier, startLevel + i));
+        }
+        return totalCost;
+    }
+
     updateAllyShopUI(allyKey) {
         const allyData = GAME_DATA.allies[allyKey];
         const currentAlly = this.allies[allyKey];
@@ -290,27 +390,49 @@ class Game {
 
         if (!elements) return;
 
-        // Cost formula
-        const cost = Math.floor(allyData.baseCost * Math.pow(allyData.costMultiplier, level));
+        // Calculate Costs
+        const cost1x = this.calculateBulkCost(allyData, level, 1);
+        const cost10x = this.calculateBulkCost(allyData, level, 10);
 
-        // Stats for next level (what you will get when you buy)
+        // Update Stats (Next Level)
         const nextLevel = level + 1;
         const nextHp = Math.floor(allyData.baseHp * Math.pow(allyData.hpMultiplier, nextLevel - 1));
         const nextDmg = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, nextLevel - 1)) + (nextLevel - 1);
+        const nextSpeed = allyData.baseAttackSpeed / 1000;
 
-        // Update DOM
-        elements.cost.textContent = this.formatNumberAbbrev(cost);
+        // Update Header (Showing "Next" stats)
         elements.level.textContent = `Lv ${level}`;
-        elements.hp.textContent = this.formatNumberAbbrev(nextHp); // HP you'll get
-        elements.dmg.textContent = this.formatNumberAbbrev(nextDmg); // Damage you'll get
-        elements.speed.textContent = `${(allyData.baseAttackSpeed / 1000).toFixed(1)}s`;
+        if (elements.hpHeader) elements.hpHeader.textContent = this.formatNumberAbbrev(nextHp);
+        if (elements.dmgHeader) elements.dmgHeader.textContent = this.formatNumberAbbrev(nextDmg);
+        if (elements.spdHeader) elements.spdHeader.textContent = nextSpeed.toFixed(1) + 's';
+        if (elements.costHeader) elements.costHeader.textContent = this.formatNumberAbbrev(cost1x);
 
-        if (this.player.energon < cost) {
-            elements.btn.style.opacity = '0.5';
-            elements.btn.style.pointerEvents = 'none';
+        // Update Expanded Section
+        elements.cost1x.textContent = this.formatNumberAbbrev(cost1x);
+        elements.cost10x.textContent = this.formatNumberAbbrev(cost10x);
+
+        let currentDps = 0;
+        if (level > 0 && currentAlly) {
+            const speedSec = currentAlly.attackSpeed / 1000;
+            currentDps = currentAlly.damage / speedSec;
+        }
+        elements.dpsCurrent.textContent = this.formatNumberAbbrev(Math.round(currentDps));
+        elements.dmgNext.textContent = this.formatNumberAbbrev(nextDmg);
+        elements.spdNext.textContent = nextSpeed.toFixed(1) + 's';
+
+
+        // Update Button States (1x)
+        if (this.player.energon < cost1x) {
+            elements.btn1x.classList.add('disabled');
         } else {
-            elements.btn.style.opacity = '1';
-            elements.btn.style.pointerEvents = 'all';
+            elements.btn1x.classList.remove('disabled');
+        }
+
+        // Update Button States (10x)
+        if (this.player.energon < cost10x) {
+            elements.btn10x.classList.add('disabled');
+        } else {
+            elements.btn10x.classList.remove('disabled');
         }
     }
 
@@ -482,40 +604,48 @@ class Game {
         }
     }
 
-    buyAlly(allyKey) {
-        const btnElement = this.allyShopElements[allyKey].btn;
+    buyAlly(allyKey, amount = 1) {
+        const btnElement = this.allyShopElements[allyKey].btn1x; // default animation target
         const allyData = GAME_DATA.allies[allyKey];
         const currentAlly = this.allies[allyKey];
         const level = currentAlly ? currentAlly.level : 0;
-        const cost = Math.floor(allyData.baseCost * Math.pow(allyData.costMultiplier, level));
+
+        // Calculate total cost for N levels
+        const cost = this.calculateBulkCost(allyData, level, amount);
 
         if (this.player.energon >= cost) {
             this.player.energon -= cost;
 
-            if (!currentAlly) {
-                // First purchase
-                this.allies[allyKey] = {
-                    level: 1,
-                    lastAttack: Date.now(),
-                    hp: allyData.baseHp, // Current HP (for future use)
-                    maxHp: allyData.baseHp,
-                    damage: allyData.baseDamage,
-                    attackSpeed: allyData.baseAttackSpeed
-                };
-                this.spawnAllyCard(allyKey);
-            } else {
-                // Upgrade
-                this.allies[allyKey].level++;
-                // Update stats
-                const newLevel = this.allies[allyKey].level;
-                this.allies[allyKey].maxHp = Math.floor(allyData.baseHp * Math.pow(allyData.hpMultiplier, newLevel - 1));
-                this.allies[allyKey].damage = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, newLevel - 1)) + (newLevel - 1);
-                this.allies[allyKey].hp = this.allies[allyKey].maxHp; // Heal on upgrade? Sure.
+            for (let i = 0; i < amount; i++) {
+                if (!this.allies[allyKey]) {
+                    // First purchase
+                    this.allies[allyKey] = {
+                        level: 1,
+                        lastAttack: Date.now(),
+                        hp: allyData.baseHp,
+                        maxHp: allyData.baseHp,
+                        damage: allyData.baseDamage,
+                        attackSpeed: allyData.baseAttackSpeed,
+                        // Skill Props
+                        skillCooldown: 0,
+                        skillActive: false,
+                        skillTimer: 0
+                    };
+                    this.spawnAllyCard(allyKey);
+                } else {
+                    // Upgrade
+                    this.allies[allyKey].level++;
+
+                    const newLevel = this.allies[allyKey].level;
+                    this.allies[allyKey].maxHp = Math.floor(allyData.baseHp * Math.pow(allyData.hpMultiplier, newLevel - 1));
+                    this.allies[allyKey].damage = Math.floor(allyData.baseDamage * Math.pow(allyData.damageMultiplier, newLevel - 1)) + (newLevel - 1);
+                    this.allies[allyKey].hp = this.allies[allyKey].maxHp;
+                }
             }
 
             this.triggerLevelUpAnimation(btnElement);
             this.updatePlayerUI();
-            this.updateUpgradeUI(); // Update weapon shop as energon changed
+            this.updateUpgradeUI();
 
             // Update all ally shop UIs
             Object.keys(GAME_DATA.allies).forEach(key => {
@@ -529,24 +659,77 @@ class Game {
 
         const card = document.createElement('div');
         card.className = 'ally-card';
+        // Note: Using 'ally-hp-bar' class but it now represents skill bar
         card.innerHTML = `
             <img src="${allyData.image}" class="ally-image" alt="${allyData.name}">
             <div class="ally-hp-bar">
-                <div class="ally-hp-fill" style="width: 100%;"></div>
+                <div class="ally-hp-fill" style="width: 0%;"></div>
             </div>
             <div class="ally-attack-bar">
                 <div class="ally-attack-fill" style="width: 0%;"></div>
             </div>
         `;
 
+        // Add skill activation click
+        card.addEventListener('click', () => {
+            this.handleAllyCardClick(allyKey);
+        });
+
         this.alliesContainer.appendChild(card);
 
         // Store references
         this.allyElements[allyKey] = {
             card: card,
-            hpBar: card.querySelector('.ally-hp-fill'),
-            attackBar: card.querySelector('.ally-attack-fill')
+            hpBar: card.querySelector('.ally-hp-fill'), // This is the skill bar now
+            attackBar: card.querySelector('.ally-attack-fill'),
+            image: card.querySelector('.ally-image')
         };
+    }
+
+    handleAllyCardClick(allyKey) {
+        const ally = this.allies[allyKey];
+        if (!ally) return;
+
+        const allyData = GAME_DATA.allies[allyKey];
+        if (!allyData.skill) return;
+
+        // Activate if Cooldown Ready
+        if (!ally.skillActive && ally.skillCooldown >= allyData.skill.cooldown) {
+            this.activateSkill(allyKey);
+        }
+    }
+
+    activateSkill(allyKey) {
+        const ally = this.allies[allyKey];
+        const allyData = GAME_DATA.allies[allyKey];
+
+        ally.skillActive = true;
+        ally.skillTimer = allyData.skill.duration;
+        ally.skillCooldown = 0;
+
+        // Visuals
+        const el = this.allyElements[allyKey];
+        if (el) {
+            // Change Image to Alt
+            el.image.src = allyData.image.replace('.jpg', '_alt.jpg');
+            el.card.classList.remove('skill-ready');
+            el.card.classList.add('skill-active');
+        }
+    }
+
+    deactivateSkill(allyKey) {
+        const ally = this.allies[allyKey];
+        const allyData = GAME_DATA.allies[allyKey];
+
+        ally.skillActive = false;
+
+        // Visuals
+        const el = this.allyElements[allyKey];
+        if (el) {
+            // Revert Image
+            el.image.src = allyData.image;
+            el.card.classList.remove('skill-active');
+        }
     }
 
     triggerHitEffect(x, y, damage) {
@@ -617,7 +800,20 @@ class Game {
         setTimeout(() => {
             if (!this.isPlaying) return;
 
-            this.player.hp -= this.currentEnemy.damage;
+            let damage = this.currentEnemy.damage;
+
+            // Apply Skill Mitigations
+            // Check Bumblebee
+            if (this.allies['bumblebee'] && this.allies['bumblebee'].skillActive) {
+                const skillData = GAME_DATA.allies.bumblebee.skill;
+                if (skillData && skillData.param1) {
+                    const reduction = skillData.param1 / 100; // 50% -> 0.5
+                    damage = Math.floor(damage * (1 - reduction));
+                }
+            }
+
+
+            this.player.hp -= damage;
             if (this.player.hp < 0) this.player.hp = 0;
 
             this.updatePlayerUI();
@@ -644,6 +840,8 @@ class Game {
         if (!this.isPlaying) return;
 
         const now = Date.now();
+        const dt = now - this.lastFrameTime;
+        this.lastFrameTime = now;
 
         // Skip enemy attack logic if boss is spawning or wave transitioning
         if (!this.isBossSpawning && !this.isWaveTransitioning) {
@@ -662,6 +860,7 @@ class Game {
 
         // Handle Allies
         for (const [key, ally] of Object.entries(this.allies)) {
+            const allyData = GAME_DATA.allies[key];
             const timeSinceAllyAttack = now - ally.lastAttack;
             const allyElements = this.allyElements[key];
 
@@ -670,6 +869,42 @@ class Game {
             if (allyElements) {
                 allyElements.attackBar.style.width = `${allyAttackProgress}%`;
             }
+
+            // --- SKILL LOGIC ---
+            if (allyData.skill) {
+                if (ally.skillActive) {
+                    // Reduce Timer
+                    ally.skillTimer -= dt;
+
+                    if (allyElements) {
+                        const pct = Math.max(0, (ally.skillTimer / allyData.skill.duration) * 100);
+                        allyElements.hpBar.style.width = `${pct}%`;
+                    }
+
+                    if (ally.skillTimer <= 0) {
+                        this.deactivateSkill(key);
+                    }
+                } else {
+                    // Increase Cooldown
+                    if (ally.skillCooldown < allyData.skill.cooldown) {
+                        ally.skillCooldown += dt;
+                        if (ally.skillCooldown > allyData.skill.cooldown) ally.skillCooldown = allyData.skill.cooldown;
+
+                        if (allyElements) {
+                            const pct = (ally.skillCooldown / allyData.skill.cooldown) * 100;
+                            allyElements.hpBar.style.width = `${pct}%`;
+                        }
+
+                        // Trigger Ready Visuals if just reached
+                        if (ally.skillCooldown >= allyData.skill.cooldown && allyElements) {
+                            if (!allyElements.card.classList.contains('skill-ready')) {
+                                allyElements.card.classList.add('skill-ready');
+                            }
+                        }
+                    }
+                }
+            }
+
 
             // Check Ally Attack
             if (timeSinceAllyAttack >= ally.attackSpeed) {

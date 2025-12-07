@@ -157,7 +157,15 @@ const GAME_DATA = {
             baseCost: 20,
             costMultiplier: 1.07,
             hpMultiplier: 1.2,
-            damageMultiplier: 1.05
+            damageMultiplier: 1.05,
+            skill: {
+                name: "Beetle",
+                duration: 20000,
+                cooldown: 10000,
+                param1: 50,
+                paramScale1: 1,
+                description: "Transforms into a small agile VW Beetle, reducing incoming damage by %%Param1%%."
+            }
         },
 
         ratchet: {

@@ -1,0 +1,40 @@
+/* Fix Layout for Expanded Bot Upgrades */
+
+.bot-upgrade {
+    /* Change from Grid to Flex Column to allow header and expanded section to stack vertically */
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0;
+    /* Gap handled internally */
+    align-items: stretch !important;
+    justify-items: stretch;
+    height: auto;
+}
+
+.upgrade-header {
+    /* Restore the original Grid Layout for the top line */
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto auto;
+    gap: 4px;
+    align-items: center;
+    width: 100%;
+}
+
+.upgrade-expanded-container {
+    /* Default is hidden, shown when .expanded */
+    display: none;
+    width: 100%;
+    /* ... other styles from previously ... */
+}
+
+/* Ensure children of header behave like before */
+.upgrade-name-level {
+    /* Ensure it takes available space in the grid */
+    grid-column: 2;
+}
+
+/* Re-enable display of weapon-damage inside bot-upgrade header */
+.bot-upgrade .weapon-damage {
+    display: block !important;
+    /* Was hidden in previous CSS */
+}
